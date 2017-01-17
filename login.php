@@ -2,6 +2,11 @@
 	session_start();
 	include_once 'include/class.user.php';
 	$user = new User();
+	
+	
+	if($_SESSION['login'] == true){
+		header("Location: index.php");
+	}
 
 	if (isset($_REQUEST['submit'])) { 
 		extract($_REQUEST);   
@@ -11,55 +16,36 @@
 	       header("location:index.php");
 	    } else {
 	        // Registration Failed
-	        echo 'Wrong username or password';
+	      echo '<script language="javascript">alert("Nombre o Contraseña incorrectos");</script>'; 
 	    }
 	}
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Login</title>
-		<style>
-            #container{width:400px; margin: 0 auto;}
-		</style>
-		<script language="javascript" type="text/javascript"> 
-            
-            function submitlogin() {
-                var form = document.login;
-				if(form.emailusername.value == ""){
-					alert( "Enter email or username." );
-					return false;
-				}
-				else if(form.password.value == ""){
-					alert( "Enter password." );
-					return false;
-				}	 
-			}
-		</script>
-	</head>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="assets/css/login.css" />
+<script src="assets/js/login.js">	
+</script>
+    <div class="container">
+        <div class="card card-container">
+            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <form action="" class="form-signin" method="post" name="login">
+	            
+<span id="reauth-email" class="reauth-email"></span>
 
-	<body>
-		<div id="container">
-			<h1>Login Here</h1>
-			<form action="" method="post" name="login">
-				<table>
-					<tr>
-						<th>USUARIO:</th>
-						<td><input type="text" name="name" required></td>
-					</tr>
-					<tr>
-						<th>CONTRASEÃ‘A:</th>
-						<td><input type="password" name="password" required></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td><input type="submit" name="submit" value="Login" onclick="return(submitlogin());"></td>
-					</tr>
-					
-				</table>
-			</form>
-		</div>
-	</body>
+<input type="text" id="inputEmail" name="name" class="form-control" placeholder="Nombre usuario" required>
+<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Contraseña" required>
+<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="submit" value="Login" onclick="return(submitlogin());">Acceder
+</button>
+            </form><!-- /form -->
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+</head>
 </html>

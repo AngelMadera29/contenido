@@ -1,0 +1,14 @@
+#wrapper {
+  margin-right: 100px;
+}
+#content {
+  float: left;
+  width: 440px;
+  background-color: #FFFFFF;
+}
+#sidebar {
+  float: right;
+  width: 800px;
+  margin-right: -100px;
+  background-color: #FFFFFF;
+}
