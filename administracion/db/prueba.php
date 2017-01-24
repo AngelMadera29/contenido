@@ -28,8 +28,16 @@ echo $texto;
 
 //	echo "User :$nombre\n nivel: {$row['nivel']}<br>";	
 
+/*
+metodo ue devuelve el numero de consultas o total de la consulta mediante el objeto
+$result = $bbdd->consulta("SELECT * FROM ofertas WHERE 1 AND fecha_inicio<=datetime('now','localtime') AND fecha_fin>=datetime('now','localtime') AND momento_inicial<= datetime('now','localtime') AND momento_final>=datetime('now','localtime') order by RANDOM()");
+$result = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
+$filas =  count($result);
+echo "Number of rows: $filas";
 
-*/
+
+
+//metodo que devuelve completamente dentro de un foreach toddos los datos seleccionados para la consulta
 $result = $bbdd->consulta("SELECT * FROM ofertas","select","ofertas","");
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $valor){
 		
@@ -41,6 +49,13 @@ echo "Id :$id1\n Articulo: :$articulo1\n Precio: :$precio1\n <br>";
 
 }
 
+*/
+    $query = "SELECT * FROM ofertas WHERE 1 AND fecha_inicio<=datetime('now','localtime') AND fecha_fin>=datetime('now','localtime') AND momento_inicial<= datetime('now','localtime') AND momento_final>=datetime('now','localtime') order by RANDOM()";
+        $result = $bbdd->consulta($query);
+        $result = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+        echo $result['id'];
+        $filas =  count($result);
+		echo "contenidos=$filas";
 /*
 $bbdd->consulta("SELECT * FRFOM usuarios","select","usuarios","")
 while($bbdd->obtener_resutado($bbdd)){
