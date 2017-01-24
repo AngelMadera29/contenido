@@ -6,6 +6,7 @@ class Base_de_datos {
 	public $bbdd;
 	private $respuesta;
 	public $resultado;
+	public $id_record;
 	//metodos
 	public function __construct($bbdd){
 	$this->bbdd = $bbdd;	
@@ -32,7 +33,15 @@ class Base_de_datos {
 	return $this->resultado;
 	
 	}
+	public function resultado_completo($opciones){
+	$this->resultado = $this->respuesta->fetchAll($opciones);
+	return $this->resultado;
+	}
 	
+	public function resultado_id($consulta){
+	$this->id_record = $this->conexion->lastInsertId();
+	return $this->id_record;
+	}
 	
 }                     
    

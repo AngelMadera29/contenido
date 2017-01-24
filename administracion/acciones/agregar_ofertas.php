@@ -1,6 +1,8 @@
 <?php		
    	session_start();
-   	$bbdd_tipo = "sqlite";
+   	include ('../administracion/db/BBDD.php');
+   	$bbdd = new Base_de_datos('administracion/db/bbdd.db');
+   	
    	$nivel = $_SESSION['nivel'];
 	$nivel_editar=1;
 	
@@ -74,7 +76,7 @@ $id = $_POST['id'];
 $articulo = $_POST['articulo'];
 $precio = $_POST['precio'];	
 $texto = $_POST['texto'];
-$fotografia = $_POST['foto_id'];	
+$fotografia = $_POST['fotografia'];	
 $video_id = $_POST['apellido2'];
 $fecha_inicio = $_POST['fecha_inicio'];	
 $fecha_fin = $_POST['fecha_fin'];
@@ -84,21 +86,14 @@ $momento_final = $_POST['momento_final'];
 $retardo = $_POST['retardo'];	
 $duracion = $_POST['duracion'];	
 $canal = $_POST['canal'];	
-	
+
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
 
-if($bbdd_tipo=="sqlite"){
-	$conexion = new PDO("sqlite:administracion/db/bbdd.db");
-	$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$resultado = $conexion->query("SELECT * from ofertas where id = '".$id."'");
-	$res = $resultado->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
-}
-if($bbdd_tipo=="mysql"){
-	$conexion = new mysqli ("localhost","root","root","bbdd") or die("Error " . mysqli_error($conexion));
-	$resultado = $conexion->query("SELECT * from personal where id = '".$id."'");
-	$res = $resultado->fetch_assoc();		
-}
+
+$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
+$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+
 
 $id1 = $res['id'];	
 $articulo1 = $res['articulo'];
@@ -115,13 +110,13 @@ $retardo1 = $res['retardo'];
 $duracion1 = $res['duracion'];	
 $canal1 = $res['canal'];	
 	
-if($bbdd_tipo=="sqlite"){
+/*if($bbdd_tipo=="sqlite"){
 	$conexion2 = new PDO("sqlite:administracion/db/registros.sqlite");
 	$conexion2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 if($bbdd_tipo=="mysql"){
 	$conexion2 = new mysqli ("localhost","root","root","registros");
-}
+}*/
 
 if ($op=="update"){
 	if ($_POST["id"]!=''){
@@ -142,32 +137,20 @@ if ($op=="update"){
 		canal = '".$canal."'
 		WHERE id = '".$id_antiguo."'";
 		
-//metodo para actualizar la informacion del personal de la base de datos		
-if($bbdd_tipo=="sqlite"){		
-	$stmt=$conexion->prepare($actulizar);
-	$stmt->execute();
-}
-if($bbdd_tipo=="mysql"){
-	$result = mysqli_query($conexion, $actulizar);
-}//fin del metodo de actualizar personal	
+
+
+		$bbdd->consulta($actulizar,"UPDATE","OFERTAS","");
 			
 		if ($_FILES["fotografia"]["tmp_name"]!="")
 		{
 		
-			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'200','160');
+			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
 			$foto_id="fotografia_".$id.".jpg?".rand();
-			$foto ="UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'";
+			//$video="previsualizaciones/".replace_extension($row["video_id"],"gif");
 
-//metodo para agregar nombre de fotografia a la base de datos		
-if($bbdd_tipo=="sqlite"){	
-			$stmt1=$conexion->prepare($foto);
-			$stmt1->execute();
-}
-if ($bbdd_tipo=="mysql"){ 
-			//metdodo de actualizacion de fotografia mediante mysqli	
-			$result1 = mysqli_query($conexion,$foto);
-}//fin del metodo para agregar fotografia en la base de datos
-	
+			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","ofertas","");
+
+
 				}//fin de if FILE from fotografia		
 		
 
@@ -233,34 +216,25 @@ $insertar = 'INSERT INTO ofertas (`id`,`articulo`,`precio`,`texto`,`foto_id`,`vi
 '".$duracion."',
 '".$canal."')";
 
-if($bbdd_tipo=="sqlite"){
-	$stmt=$conexion->prepare($insertar);
-	$stmt->execute();
+ $bbdd->consulta($insertar,"INSERT","OFERTAS","");
+ $id = $bbdd->resultado_id();
+/* 
+	metodo para tomar la ultima id insertada de ofertas y utlizarla para agregarla a la tabla de logs
 	$id=$conexion->lastInsertId();
 	$log1 = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)VALUES(NULL,'".$usuario."','".$now."','agregado','agregado personal id $id')";
 	$stmt1=$conexion2->prepare($log1);
 	$stmt1->execute();
-}if($bbdd_tipo=="mysql"){
-	$result = mysqli_query($conexion, $insertar);
-	$id=$conexion->insert_id;
-    $log1 = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)VALUES(NULL,'".$usuario."','".$now."','agregado','agregado personal id $id')";
-	$result1 = mysqli_query($conexion2, $log1);
-	
-}
+*/
 				
 		if ($_FILES["fotografia"]["tmp_name"]!="")
 		{
-			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'200','160');
-			$foto_id="fotografia_".$id.".jpg?".rand();
+			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');								$foto_id="fotografia_".$id.".jpg?".rand();
 		}else{
 			$foto_id="sin_imagen.jpg";
 		}
 		
-if($bbdd_tipo=="sqlite"){
-		$conexion->query("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'");
-}if($bbdd_tipo=="mysql"){
-		$conexion->query("UPDATE personal SET fotografia = '".$foto_id."' WHERE id = '".$id."'");
-}
+		$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS","");
+
 		
 		echo '<script language="javascript">alert("Oferta insertada correctamente");</script>'; 
 	}//fin del if si es insert

@@ -1,6 +1,8 @@
 <?php
 session_start();
-	$bbdd_tipo = "sqlite";
+include ('../db/BBDD.php');
+
+$bbdd = new Base_de_datos('../db/bbdd.db');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 3 ){exit;}
 $nivel = $_SESSION['nivel'];
 
@@ -66,35 +68,25 @@ $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection.
 $sql="SELECT id, usuario, fecha, accion, descripcion FROM logs WHERE $fechas";
-if($bbdd_tipo=="sqlite"){
-	$conn = new PDO("sqlite:../db/registros.sqlite");  // SQLite Database
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$stmt=$conn->prepare($sql);
-	$stmt->execute();
-	$results_array=$stmt->fetchAll(PDO::FETCH_ASSOC);
-	$json=json_encode( $results_array );
-	$nRows=$conn->query("SELECT count(*) FROM logs WHERE $where AND $fechas")->fetchColumn();   /* specific search then how many match */
-}if ($bbdd_tipo=="mysql"){
-		$bbdd = new mysqli ("localhost","root","root","registros");
-	$result = mysqli_query($bbdd, $sql) or die("Error in Selecting " . mysqli_error($bbdd));
-	$emparray = array();
-	    while($row = mysqli_fetch_assoc($result))
-	    {
-	        $emparray[] = array_map('utf8_encode', $row);;
-	    }
-	$numeros = "SELECT count(*) FROM logs WHERE $where";
-	$numero = mysqli_query($bbdd, $numeros) or die(mysqli_error($bbdd));
-	$nRows = $numero->fetch_row();
-	$json = json_encode($emparray, JSON_UNESCAPED_UNICODE);
-	$json = urldecode(stripslashes($json)); 
-}
 
+	$result = $bbdd->consulta($sql,"select","ofertas","$nivel");
+	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
+	$json = json_encode($results_array, JSON_UNESCAPED_UNICODE);
+	$json = urldecode(stripslashes($json)); 
+	//$nRows=$conn->query("SELECT count(*) FROM logs WHERE $where AND $fechas")->fetchColumn();   /* specific search then how many match */
 
 header('Content-Type: application/json'); //tell the broswer JSON is coming
+
 if (isset($_REQUEST['rowCount']) )  //Means we're using bootgrid library
-echo "{ \"current\":  $current, \"rowCount\":$rows,  \"rows\": ".$json.", \"total\": $nRows }";
+{
+	$salida="{ \"current\":  $current, \"rowCount\":$rows,  \"rows\": ".$json.", \"total\": $nRows }";
+	//file_put_contents('out.txt', $salida);
+	echo $salida;
+}
 else
-echo $json;  //Just plain vanillat JSON output 
+{
+	echo $json;  //Just plain vanillat JSON output 
+}
 exit;
 
 ?>

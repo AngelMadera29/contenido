@@ -15,8 +15,8 @@ include_once("administracion/db/BBDD.php");
         	$result = $bbdd->consulta($sql2,"select","usuarios","");
         	$user_data = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
         	$pass = $user_data['sha_pass'];
-        	
-
+        
+        
 	        if ($pass == sha1("$name:$password")) {
 	            // this login var will use for the session thing
 	            $_SESSION['login'] = true; 

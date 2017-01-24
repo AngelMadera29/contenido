@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 ?>
@@ -39,7 +39,7 @@ echo "";
 	 <?php
 	 if ($nivel >= 1){	 
 echo "<a href='?page=invitado_form' class='btn btn-info'>Añadir invitado</a> "; 
-echo "<a href='?page=personal_form' class='btn btn-primary'>Añadir personal</a> ";
+echo "<a href='?page=ofertas_form' class='btn btn-primary'>Añadir personal</a> ";
 echo "<button id='show' class='btn btn-danger' disabled>Vaciar registros</button>";
 	 }else{
 echo "";
@@ -71,7 +71,7 @@ echo "";
 		     data-maintain-selected="true"
 			 data-toolbar="#show"
 			 data-flat="true"
-             data-url="administracion/vistas/personal.php">
+             data-url="administracion/vistas/oferta.php">
          <thead>
 
             <tr>
@@ -116,12 +116,12 @@ echo "";
 						
       borrar=confirm("Eliminar personal seleccionado : " + ids);
        if(borrar)
-       window.location = "index.php?page=vaciado-personal&datos=" + ids;
+       window.location = "index.php?page=vaciado-ofertas&datos=" + ids;
        //enviar parametro post get 
             else
       alert('No se ha podido eliminar el personal..');
       
- $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/personal.php'});
+ $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/oferta.php'});
         });
     });
  });
@@ -140,10 +140,9 @@ echo "";
     function dataFormater(value, row, index) {
 
         var id = row.id;
-        var visitante = row.visitante;
 
         var strHTML = "<div>";
-         strHTML += "<a href='index.php?page=personal_form&datos=" + id + "&visitante="+ visitante +"' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Editar</a>";
+         strHTML += "<a href='index.php?page=ofertas_form&datos=" + id + "' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Editar</a>";
         strHTML += "</div>";
 
         var valReturn = strHTML;
@@ -162,7 +161,7 @@ echo "";
                 return row.id;
             });
     
- $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/personal.php'});
+ $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/oferta.php'});
         });
     });
  });

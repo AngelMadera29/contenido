@@ -1,6 +1,9 @@
 <?php
 session_start();
-$bbdd_tipo ="sqlite";
+include ('../db/BBDD.php');
+
+$bbdd = new Base_de_datos('../db/bbdd.db');
+
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 
@@ -40,8 +43,7 @@ if (isset($_REQUEST['searchPhrase']) )
   	         momento_final LIKE '".$search."%' OR 
   	         retardo LIKE '".$search."%' OR
   	          duracion LIKE '".$search."%' OR 
-  	          canal LIKE '".$search."%' OR
-  	             emergencias LIKE '".$search."%') "; 
+  	          canal LIKE '".$search."%') "; 
 	}
 
 //Handles determines where in the paging count this result set falls in
@@ -62,38 +64,14 @@ else
 $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection
-$sql="SELECT id,articulo,precio,texto,foto_id,video_id,fecha_inicio,fecha_fin,pases_pendientes,momento_inicial,momento_final,retardo,duracion,canal FROM ofertas";
+$sql="SELECT id, articulo,precio,texto,foto_id,video_id,fecha_inicio,fecha_fin,pases_pendientes,momento_inicial,momento_final,retardo,duracion,canal FROM ofertas";
 
-if ($bbdd_tipo=="sqlite")
-{
-	$conn = new PDO("sqlite:../db/bbdd.db");  // SQLite Database
-	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$stmt=$conn->prepare($sql);
-	$stmt->execute();
-	$results_array=$stmt->fetchAll(PDO::FETCH_ASSOC);
-	$nRows=$conn->query("SELECT count(*) FROM ofertas WHERE $where")->fetchColumn();   /* specific search then how many match */
-	$json=json_encode( $results_array );
-	//echo "se conecto con mysqli";
-	
-		//echo "se conecto con sqlite";
-}
-if ($bbdd_tipo=="mysql")
-{
-	$bbdd = new mysqli ("localhost","root","root","bbdd");
-	$result = mysqli_query($bbdd, $sql) or die("Error in Selecting " . mysqli_error($bbdd));
-	$emparray = array();
-	    while($row = mysqli_fetch_assoc($result))
-	    {
-	        $emparray[] = array_map('utf8_encode', $row);;
-	    }
-	$numeros = "SELECT count(*) FROM personal WHERE $where";
-	$numero = mysqli_query($bbdd, $numeros) or die(mysqli_error($bbdd));
-	$nRows = $numero->fetch_row();
-	$json = json_encode($emparray, JSON_UNESCAPED_UNICODE);
+	$result = $bbdd->consulta($sql,"select","ofertas","$nivel");
+	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
+	$json = json_encode($results_array, JSON_UNESCAPED_UNICODE);
 	$json = urldecode(stripslashes($json)); 
-
-	
-}
+	//$nRows=$conn->query("SELECT count(*) FROM ofertas WHERE $where")->fetchColumn();   /* specific search then how many match */
+		
 
 header('Content-Type: application/json'); //tell the broswer JSON is coming
 

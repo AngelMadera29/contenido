@@ -1,7 +1,8 @@
 
 <?php 
 	session_start();
-	$bbdd_tipo = "sqlite";
+include ('../administracion/db/BBDD.php');
+$bbdd = new Base_de_datos('administracion/db/bbdd.db');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 
@@ -10,17 +11,7 @@ if ($_SESSION['lector'] == "126")
 {
 	$direccion_ip="192.168.20.126";
 }
-/*si el nivel de usuario es menor que cero y si visitante es diferente a SÍ este mostrara mensaje que no podra modificar este personal.
-if ($_SESSION['nivel'] == 0 && $_GET['visitante'] !== "SÍ"){
-echo '<script language="javascript">alert("No tiene permisos para editar esta persona");</script>'; 
-echo "<script> window.location = '?page=per';</script>";
-}
-// si el nivel se usuario es menor que cero pero siviante es SÍ este podra acceder al formulario de visitante y modificar el personal.
-if ($_SESSION['nivel'] == 0 && $_GET['visitante'] == "SÍ"){
-	$id=$_GET['datos'];
-	echo "<script> window.location = '?page=invitado_form&datos=$id';</script>";
-	}
-*/
+
 if (isset($_GET))
 {
 	$id=$_GET['datos'];
@@ -28,23 +19,16 @@ if (isset($_GET))
 	{
 
 
-if ($bbdd_tipo=="sqlite"){	
-	$conexion = new PDO("sqlite:administracion/db/bbdd.db");
-	$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$resultado = $conexion->query("SELECT * from ofertas where id = '".$id."'");
-	$res = $resultado->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
-}
-if($bbdd_tipo=="mysql"){
-	$conexion = new mysqli ("localhost","root","root","bbdd") or die("Error " . mysqli_error($conexion));
-	$resultado = $conexion->query("SELECT * from personal where id = '".$id."'");
-	$res = $resultado->fetch_assoc();
-}
+	$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","select","ofertas","");
+	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+
+
 
 $id = $res['id'];	
 $articulo = $res['articulo'];
 $precio = $res['precio'];	
 $texto = $res['texto'];
-$foto_id =$res['foto_id'];	
+$fotografia =$res['foto_id'];	
 $video_id = $res['apellido2'];
 $fecha_inicio = $res['fecha_inicio'];	
 $fecha_fin = $res['fecha_fin'];
@@ -100,6 +84,19 @@ else
     <legend>Agregar Noticias</legend>
 <div class="row">
 	 							<div class="col-md-6">
+		 							
+<div class="container" id="foto">        
+  <img src="administracion/db/imagenes/<?php echo $fotografia; ?>" class="img-thumbnail"  width="300" height="200"> 
+</div>
+<script>
+  function placeDiv(x_pos, y_pos) {
+  var d = document.getElementById('foto');
+  d.style.position = "absolute";
+  d.style.left = x_pos+'2000px';
+  d.style.top = y_pos+'30px';
+}
+	</script>
+<br>
 <div class="form-group">
       <label for="inputEmail" class="col-lg-2 control-label" >ID</label>
       <div class="col-xs-4">
@@ -126,10 +123,11 @@ else
         <input type="text" class="form-control" name="texto" value="<?php echo $texto;?>" id="texto" placeholder="texto" maxlength="20" required>
       </div>
     </div>
+ <div class="form-group"> 
 <label for="inputEmail" class="col-lg-2 control-label">Fotografia</label>
       <div class="col-xs-4">   
-	      <input type="file" name="foto_id" id="fotografia" onchange="previewFile()"  >
-	     <img src=".$ruta." height="200" alt="Previsualizar imagen..">
+	      <input type="file" name="fotografia" id="fotografia" onchange="previewFile()"  >
+	     
 <script type="text/javascript">
         function previewFile() {
   var preview = document.querySelector('img');
@@ -148,6 +146,7 @@ else
 }
     </script> 
       </div>
+ </div>
  
 
 	 							</div>

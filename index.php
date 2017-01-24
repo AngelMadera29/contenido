@@ -58,7 +58,8 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="">Listado de contenido<span class="caret"></span></a>
         <ul class="dropdown-menu">
 	     <?php  
-echo "    <li><a href='?page=per'>Lista de Personal</a></li>";
+echo "    <li><a href='?page=ofertas'>Lista de ofertas</a></li>";
+echo "	  <li><a href='?page=thum'>lista</a></li>";
 if($_SESSION['nivel'] >= 2){
     echo "    <li><a href='?page=usr'>Lista de Usuarios</a></li>";
 }else{
@@ -86,24 +87,25 @@ if($_SESSION['nivel'] >= 2){
 	  <?php 	  
 		  
 		
+		if (!isset($_GET['page']))
+		{
+			$_GET['page']="ofertas";	
+		}
 		switch ($_GET['page']) {
 			
 			//caso de listado de personal y edicion 
 			default:
-			include "administracion/vistas/personas.php";
+			include "administracion/vistas/ofertas.php";
 			break;
 			
 			
 		//seccion de control de registros de noticias
-			case 'personal_form':
-			include "administracion/acciones/personal_form2.php";
+			case 'ofertas_form':
+			include "administracion/acciones/ofertas_form.php";
 			break;	
-			case 'personal_add':
-			include "administracion/acciones/agregar_personal.php";
-			break;		
-			case 'del_personal':
-			include "administracion/acciones/del_personal.php";
-			break;			
+			case 'ofertas_add':
+			include "administracion/acciones/agregar_ofertas.php";
+			break;				
 		//accion para abrir formulario de registro de nuevos usuarios
 			case 'usuario_form':
 			include "administracion/acciones/usuario_form.php";
@@ -118,8 +120,8 @@ if($_SESSION['nivel'] >= 2){
 					
 			
 	//contenido para el vaciado de contenidos			
-			case 'vaciado-personal':
-			include "administracion/acciones/vaciado_personal.php";
+			case 'vaciado-ofertas':
+			include "administracion/acciones/vaciado_ofertas.php";
 			break;	
 			case 'vaciado_logs':
 			include "administracion/acciones/vaciado_logs.php";
@@ -138,12 +140,16 @@ if($_SESSION['nivel'] >= 2){
 			
 			
 			
-			case 'per':
-			include "administracion/vistas/personas.php";
+			case 'ofertas':
+			include "administracion/vistas/ofertas.php";
 			break;		
 			case 'usr':
 			include "administracion/vistas/usr.php";
-			break;			
+			break;	
+			case 'thum';
+			include 'administracion/vistas/thumbnail.php';
+			break;
+					
 					
 			case 'logs':
 			include "administracion/vistas/logs.php";
@@ -154,7 +160,8 @@ if($_SESSION['nivel'] >= 2){
 					
 						
 			
-		}  
+		} 
+	 
 	   ?> 
      </div>
   </body>

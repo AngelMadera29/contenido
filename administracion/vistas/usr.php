@@ -70,7 +70,8 @@ echo "";
 	            <th data-field="state" data-checkbox="true"></th>
                 <th data-field="id">id</th>
                 <th data-formatter="dataFormater" data-width="90">Acción</th>
-                 <th data-field="nombre" >Nombre</th>
+                <th data-field="id_cliente">id cliente</th>
+                <th data-field="nombre" >Nombre</th>
                 <th data-field="sha_pass">Contraseña</th>
 				<th data-field="nivel" data-type="numeric">Nivel</th>
 				<th data-column-id="commands" data-formatter="commands" data-sortable="true" data-visible="false">Acciones</th>

@@ -1,23 +1,18 @@
 <?php 	
 	session_start();
-	$bbdd_tipo = "mysql";
+include ('../administracion/db/BBDD.php');
+$bbdd = new Base_de_datos('administracion/db/bbdd.db');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 2 ){exit;}
 if (isset($_GET))
 {
 	$id=$_GET['datos'];
 	if ($id != "")
 	{
-if($bbdd_tipo=="sqlite"){
-	$conexion = new PDO("sqlite:administracion/db/bbdd.sqlite");
-	$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$resultado = $conexion->query("SELECT * FROM usuarios WHERE id = '$id' ");
-	$res = $resultado->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
-}
-if($bbdd_tipo=="mysql"){
-	$conexion = new mysqli ("localhost","root","root","bbdd") or die("Error " . mysqli_error($conexion));
-	$resultado = $conexion->query("SELECT * FROM usuarios WHERE id = '$id' ");
-	$res = $resultado->fetch_assoc();
-}
+
+
+	$resultado = $bbdd->consulta("SELECT * from usuarios where id = '".$id."'","select","usuarios","");
+	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+
 $nombre = $res['nombre'];
 $sha_pass = $res['sha_pass'];
 $nivel = $res['nivel'];
