@@ -29,7 +29,7 @@ $articulo = $res['articulo'];
 $precio = $res['precio'];	
 $texto = $res['texto'];
 $fotografia =$res['foto_id'];	
-$video_id = $res['apellido2'];
+$video_id = $res['video_id'];
 $fecha_inicio = $res['fecha_inicio'];	
 $fecha_fin = $res['fecha_fin'];
 $pases_pendientes = $res['pases_pendientes'];
@@ -38,7 +38,8 @@ $momento_final = $res['momento_final'];
 $retardo = $res['retardo'];	
 $duracion = $res['duracion'];	
 $canal = $res['canal'];	
-		}
+		}		
+		
 }
 if ($id!='')
 	$accion="update";
@@ -86,7 +87,14 @@ else
 	 							<div class="col-md-6">
 		 							
 <div class="container" id="foto">        
-  <img src="administracion/db/imagenes/<?php echo $fotografia; ?>" class="img-thumbnail"  width="300" height="200"> 
+	<?php
+if ($fotografia != "")
+{	
+  echo "<img src='administracion/db/imagenes/$fotografia' class='img-thumbnail'  width='300' height='200'> ";
+}else{
+  echo "<img src'previsualizaciones/$video_id' class='img-thumbnail'  width='300' height='200'> ";
+}
+  ?>
 </div>
 <script>
   function placeDiv(x_pos, y_pos) {
