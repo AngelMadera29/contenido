@@ -77,7 +77,7 @@ else
         
 	</head>
 	<body>
-<form class="form-horizontal" role="form" action="?page=personal_add" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" role="form" action="?page=ofertas_add" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="op" value="<?php echo $accion;?>">
 				<input type="hidden" name="id" value="<?php echo $id;?>">
   <fieldset>

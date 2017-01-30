@@ -104,7 +104,7 @@ if($_SESSION['nivel'] >= 2){
 			include "administracion/acciones/ofertas_form.php";
 			break;	
 			case 'ofertas_add':
-			include "administracion/acciones/agregar_ofertas.php";
+			include "administracion/acciones/agregar_oferta2.php";
 			break;				
 		//accion para abrir formulario de registro de nuevos usuarios
 			case 'usuario_form':

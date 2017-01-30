@@ -87,6 +87,25 @@ $retardo = $_POST['retardo'];
 $duracion = $_POST['duracion'];	
 $canal = $_POST['canal'];	
 
+
+
+
+//obtenr la extencion del archivo a subir
+$archivo = $_FILES["fotografia"]["type"]; 
+$trozos = explode(".", $archivo); 
+$extension = end($trozos); 
+// mostramos la extensi�n del archivo
+echo "La extensi�n del archivo es: $extension";  
+
+if ($archivo == "image/jpeg"){
+	echo "es imagen";
+}else{
+	echo "es otra cosa";
+}
+
+exit();
+
+
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
 
@@ -145,6 +164,7 @@ if ($op=="update"){
 		{
 		
 			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
+					//move_uploaded_file($_FILES['fotografia']['tmp_name'], "administracion/db/imagenes/fotografia_".$id.".jpg");
 			$foto_id="fotografia_".$id.".jpg?".rand();
 			//$video="previsualizaciones/".replace_extension($row["video_id"],"gif");
 
@@ -238,6 +258,6 @@ $insertar = 'INSERT INTO ofertas (`id`,`articulo`,`precio`,`texto`,`foto_id`,`vi
 		
 		echo '<script language="javascript">alert("Oferta insertada correctamente");</script>'; 
 	}//fin del if si es insert
-include "administracion/vistas/personas.php";
+include "administracion/vistas/ofertas.php";
 
 ?>
