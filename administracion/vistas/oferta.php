@@ -68,7 +68,7 @@ $sql="SELECT id, articulo,precio,texto,foto_id,video_id,fecha_inicio,fecha_fin,p
 
 	$result = $bbdd->consulta($sql,"select","ofertas","$nivel");
 	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
-	$json = json_encode($results_array, JSON_UNESCAPED_UNICODE);
+	$json = json_encode($results_array);
 	$json = urldecode(stripslashes($json)); 
 	//$nRows=$conn->query("SELECT count(*) FROM ofertas WHERE $where")->fetchColumn();   /* specific search then how many match */
 		

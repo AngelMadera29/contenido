@@ -1,74 +1,15 @@
 <?php		
    	session_start();
-   	include ('../administracion/db/BBDD.php');
+   	include("comprobar_previsualizacion.php");
+   	include_once "administracion/db/BBDD.php";
    	$bbdd = new Base_de_datos('administracion/db/bbdd.db');
+   
    	
    	$nivel = $_SESSION['nivel'];
 	$nivel_editar=1;
 	
 	
 if ($_SESSION['nivel'] == ''){exit;}
-function cwUpload($field_name = '', $target_folder = '', $file_name = '', $thumb = FALSE, $thumb_folder = '', $thumb_width = '', $thumb_height = ''){
-	//folder path setup
-	$target_path = $target_folder;
-	$thumb_path = $thumb_folder;
-	
-	//file name setup
-	$filename_err = explode(".",$_FILES[$field_name]['tmp_name']);
-	$filename_err_count = count($filename_err);
-	$file_ext = $filename_err[$filename_err_count-1];
-		
-	//upload image path
-	$upload_image = $target_path.basename($fileName);
-	
-	//upload image
-	if(move_uploaded_file($_FILES[$field_name]['tmp_name'],$upload_image))
-	{
-		//thumbnail creation
-		if($thumb == TRUE)
-		{
-			$thumbnail = $thumb_path.$fileName;
-			list($width,$height) = getimagesize($upload_image);
-			$thumb_create = imagecreatetruecolor($thumb_width,$thumb_height);
-			switch($file_ext){
-				case 'jpg':
-					$source = imagecreatefromjpeg($upload_image);
-					break;
-				case 'jpeg':
-					$source = imagecreatefromjpeg($upload_image);
-					break;
-				case 'png':
-					$source = imagecreatefrompng($upload_image);
-					break;
-				case 'gif':
-					$source = imagecreatefromgif($upload_image);
-					break;
-				default:
-					$source = imagecreatefromjpeg($upload_image);
-			}
-			imagecopyresized($thumb_create,$source,0,0,0,0,$thumb_width,$thumb_height,$width,$height);
-			switch($file_ext){
-				case 'jpg' || 'jpeg':
-					imagejpeg($thumb_create,$thumbnail,100);
-					break;
-				case 'png':
-					imagepng($thumb_create,$thumbnail,100);
-					break;
-				case 'gif':
-					imagegif($thumb_create,$thumbnail,100);
-					break;
-				default:
-					imagejpeg($thumb_create,$thumbnail,100);
-			}
-		}
-
-		return $fileName;
-	}
-	else
-	{
-		return false;
-	}
-}	
 	
 $op = $_POST['op']; 
 $id_antiguo = $_POST['id_antiguo'];
@@ -76,8 +17,7 @@ $id = $_POST['id'];
 $articulo = $_POST['articulo'];
 $precio = $_POST['precio'];	
 $texto = $_POST['texto'];
-$fotografia = $_POST['fotografia'];	
-$video_id = $_POST['apellido2'];
+$fotografia = $_POST['fotografia'];
 $fecha_inicio = $_POST['fecha_inicio'];	
 $fecha_fin = $_POST['fecha_fin'];
 $pases_pendientes = $_POST['pases_pendientes'];
@@ -86,25 +26,6 @@ $momento_final = $_POST['momento_final'];
 $retardo = $_POST['retardo'];	
 $duracion = $_POST['duracion'];	
 $canal = $_POST['canal'];	
-
-
-
-
-//obtenr la extencion del archivo a subir
-$archivo = $_FILES["fotografia"]["type"]; 
-$trozos = explode(".", $archivo); 
-$extension = end($trozos); 
-// mostramos la extensi�n del archivo
-echo "La extensi�n del archivo es: $extension";  
-
-if ($archivo == "image/jpeg"){
-	echo "es imagen";
-}else{
-	echo "es otra cosa";
-}
-
-exit();
-
 
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
@@ -119,7 +40,7 @@ $articulo1 = $res['articulo'];
 $precio1 = $res['precio'];	
 $texto1 = $res['texto'];
 $foto_id1=$res['foto_id'];	
-$video_id1 = $res['apellido2'];
+$video_id1 = $res['video_id'];
 $fecha_inicio1 = $res['fecha_inicio'];	
 $fecha_fin1 = $res['fecha_fin'];
 $pases_pendientes1 = $res['pases_pendientes'];
@@ -155,26 +76,56 @@ if ($op=="update"){
 		duracion = '".$duracion."',
 		canal = '".$canal."'
 		WHERE id = '".$id_antiguo."'";
-		
-
 
 		$bbdd->consulta($actulizar,"UPDATE","OFERTAS","");
-			
-		if ($_FILES["fotografia"]["tmp_name"]!="")
-		{
+	
+
+		//comprobamos la extencion del archivo
+		$archivo = $_FILES["fotografia"]["type"]; 
+		$trozos = explode(".", $archivo); 
+		$extension = end($trozos); 
 		
-			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
-					//move_uploaded_file($_FILES['fotografia']['tmp_name'], "administracion/db/imagenes/fotografia_".$id.".jpg");
+		// mostramos la extensión del archivo
+		if ($archivo != "video/mp4"){
+			//si el archivo es fotografia este lo mandara direnctamente a esta opcion
+			if ($_FILES["fotografia"]["tmp_name"]!="")
+			{
+		
+			//$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
+			move_uploaded_file($_FILES["fotografia"]["tmp_name"], "administracion/db/imagenes/fotografia_".$id.".jpg");	
 			$foto_id="fotografia_".$id.".jpg?".rand();
-			//$video="previsualizaciones/".replace_extension($row["video_id"],"gif");
+															}else{
+			$foto_id="sin_imagen.jpg";
+											 	 	 }
 
 			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","ofertas","");
-
-
-				}//fin de if FILE from fotografia		
+		//fin de la opcion si el tipo de archivo es fotogrfia
+			
+			  }else{		
+		//es metodo para agregar video y transformarlo a gif
+		if ($_FILES["fotografia"]["tmp_name"]!="")
+										{
+			move_uploaded_file($_FILES["fotografia"]["tmp_name"], "administracion/db/videos/video_".$id."_". $_FILES["fotografia"]["name"]);		
+     		$video_id="video_".$id."_".$_FILES["fotografia"]["name"];
+										}else{
+			$video_id="sin_imagen.jpg";
+											 }
+			$bbdd->consulta("UPDATE ofertas SET video_id = '".$video_id."' WHERE id = '".$id."'","UPDATE","ofertas","");
 		
-
-/*
+		$resultado1 = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
+		$res1 = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+		$video_id1 = $res1['video_id'];
+		
+		$nombre_de_video=explode('?',$video_id1);
+		
+		if (file_exists("administracion/db/videos/".$nombre_de_video[0])&&$nombre_de_video[0]!="sin_imagen.jpg"&&$nombre_de_video[0]!="")
+		{
+			comprobar_previsualizacion("administracion/db/videos/".$nombre_de_video[0],"administracion/db/previsualizaciones","1");
+		}
+		
+					}//fin de else si no es video
+		
+		/*
 $logs = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)
 VALUES
 (NOT NULL,'".$usuario."','".$now."','actualizacion',
@@ -212,9 +163,10 @@ if($bbdd_tipo=="mysql"){
     
  
  */
+
 	}//fin de if post no esta vacio
 echo '<script language="javascript">alert("Oferta actualizada correctamente");</script>'; 
-//else{
+include "administracion/vistas/ofertas.php";
 }	//fin del if update
 
 if ($op=="insert"){
@@ -238,26 +190,12 @@ $insertar = 'INSERT INTO ofertas (`id`,`articulo`,`precio`,`texto`,`foto_id`,`vi
 
  $bbdd->consulta($insertar,"INSERT","OFERTAS","");
  $id = $bbdd->resultado_id();
-/* 
-	metodo para tomar la ultima id insertada de ofertas y utlizarla para agregarla a la tabla de logs
-	$id=$conexion->lastInsertId();
-	$log1 = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)VALUES(NULL,'".$usuario."','".$now."','agregado','agregado personal id $id')";
-	$stmt1=$conexion2->prepare($log1);
-	$stmt1->execute();
-*/
-				
-		if ($_FILES["fotografia"]["tmp_name"]!="")
-		{
-			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');								$foto_id="fotografia_".$id.".jpg?".rand();
-		}else{
-			$foto_id="sin_imagen.jpg";
-		}
-		
-		$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS","");
 
-		
-		echo '<script language="javascript">alert("Oferta insertada correctamente");</script>'; 
+			
+		echo '<script language="javascript">alert("Oferta agregada correctamente");</script>'; 	
+		echo '<script language="javascript">alert("Actualiza o agrega fotografia");</script>'; 
+		echo "<script> window.location = '?page=ofertas_form&datos=$id';</script>";	
+		include "administracion/vistas/ofertas.php";
 	}//fin del if si es insert
-include "administracion/vistas/ofertas.php";
-
+	
 ?>

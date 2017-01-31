@@ -1,9 +1,7 @@
 <?php		
    	session_start();
-   	include("comprobar_previsualizacion.php");
    	include ('../administracion/db/BBDD.php');
    	$bbdd = new Base_de_datos('administracion/db/bbdd.db');
-   
    	
    	$nivel = $_SESSION['nivel'];
 	$nivel_editar=1;
@@ -36,7 +34,7 @@ function cwUpload($field_name = '', $target_folder = '', $file_name = '', $thumb
 				case 'jpg':
 					$source = imagecreatefromjpeg($upload_image);
 					break;
-					case 'jpeg':
+				case 'jpeg':
 					$source = imagecreatefromjpeg($upload_image);
 					break;
 				case 'png':
@@ -78,7 +76,8 @@ $id = $_POST['id'];
 $articulo = $_POST['articulo'];
 $precio = $_POST['precio'];	
 $texto = $_POST['texto'];
-$fotografia = $_POST['fotografia'];
+$fotografia = $_POST['fotografia'];	
+$video_id = $_POST['apellido2'];
 $fecha_inicio = $_POST['fecha_inicio'];	
 $fecha_fin = $_POST['fecha_fin'];
 $pases_pendientes = $_POST['pases_pendientes'];
@@ -87,6 +86,25 @@ $momento_final = $_POST['momento_final'];
 $retardo = $_POST['retardo'];	
 $duracion = $_POST['duracion'];	
 $canal = $_POST['canal'];	
+
+
+
+
+//obtenr la extencion del archivo a subir
+$archivo = $_FILES["fotografia"]["type"]; 
+$trozos = explode(".", $archivo); 
+$extension = end($trozos); 
+// mostramos la extensi�n del archivo
+echo "La extensi�n del archivo es: $extension";  
+
+if ($archivo == "image/jpeg"){
+	echo "es imagen";
+}else{
+	echo "es otra cosa";
+}
+
+exit();
+
 
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
@@ -101,7 +119,7 @@ $articulo1 = $res['articulo'];
 $precio1 = $res['precio'];	
 $texto1 = $res['texto'];
 $foto_id1=$res['foto_id'];	
-$video_id1 = $res['video_id'];
+$video_id1 = $res['apellido2'];
 $fecha_inicio1 = $res['fecha_inicio'];	
 $fecha_fin1 = $res['fecha_fin'];
 $pases_pendientes1 = $res['pases_pendientes'];
@@ -137,19 +155,26 @@ if ($op=="update"){
 		duracion = '".$duracion."',
 		canal = '".$canal."'
 		WHERE id = '".$id_antiguo."'";
+		
+
 
 		$bbdd->consulta($actulizar,"UPDATE","OFERTAS","");
-		
-		$nombre_de_video=explode('?',$video_id1);
-		
-		if (file_exists("administracion/db/videos/".$nombre_de_video[0])&&$nombre_de_video[0]!="sin_imagen.jpg"&&$nombre_de_video[0]!="")
+			
+		if ($_FILES["fotografia"]["tmp_name"]!="")
 		{
-			comprobar_previsualizacion("administracion/dbvideos/".$nombre_de_video[0],"previsualizaciones","1");
-		}
 		
+			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
+					//move_uploaded_file($_FILES['fotografia']['tmp_name'], "administracion/db/imagenes/fotografia_".$id.".jpg");
+			$foto_id="fotografia_".$id.".jpg?".rand();
+			//$video="previsualizaciones/".replace_extension($row["video_id"],"gif");
+
+			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","ofertas","");
+
+
+				}//fin de if FILE from fotografia		
 		
-		
-		/*
+
+/*
 $logs = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)
 VALUES
 (NOT NULL,'".$usuario."','".$now."','actualizacion',
@@ -187,10 +212,9 @@ if($bbdd_tipo=="mysql"){
     
  
  */
-
 	}//fin de if post no esta vacio
 echo '<script language="javascript">alert("Oferta actualizada correctamente");</script>'; 
-include "administracion/vistas/ofertas.php";
+//else{
 }	//fin del if update
 
 if ($op=="insert"){
@@ -214,57 +238,26 @@ $insertar = 'INSERT INTO ofertas (`id`,`articulo`,`precio`,`texto`,`foto_id`,`vi
 
  $bbdd->consulta($insertar,"INSERT","OFERTAS","");
  $id = $bbdd->resultado_id();
- 
-		//comprobamos la extencion del archivo
-		$archivo = $_FILES["fotografia"]["type"]; 
-		$trozos = explode(".", $archivo); 
-		$extension = end($trozos); 
-		
-		// mostramos la extensión del archivo
-		if ($archivo != "video/mp4"){
-			//si el archivo es fotografia este lo mandara direnctamente a esta opcion
-			if ($_FILES["fotografia"]["tmp_name"]!="")
-			{
-		
-			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
-			$foto_id="fotografia_".$id.".jpg?".rand();
-															}else{
-			$foto_id="sin_imagen.jpg";
-											 	 	 }
-
-			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","ofertas","");
-		//fin de la opcion si el tipo de archivo es fotogrfia
-			
-			}else{						
-										
-			if ($_FILES["fotografia"]["tmp_name"]!="")
-										{
-			move_uploaded_file($_FILES["fotografia"]["tmp_name"], "administracion/db/videos/video_".$id."_". $_FILES["fotografia"]["name"]);		
-     		$video_id="video_".$id."_".$_FILES["fotografia"]["name"];
-										}else{
-			$video_id="sin_imagen.jpg";
-											 }
-			$bbdd->consulta("UPDATE ofertas SET video_id = '".$video_id."' WHERE id = '".$id."'","UPDATE","ofertas","");
-			}
-			
-		$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
-		$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
-		$video_id = $res['video_id'];
-
-
-		$nombre_de_video=explode('?',$video_id);
-		
-		if (file_exists("administracion/db/videos/".$nombre_de_video[0])&&$nombre_de_video[0]!="sin_imagen.jpg"&&$nombre_de_video[0]!="")
+/* 
+	metodo para tomar la ultima id insertada de ofertas y utlizarla para agregarla a la tabla de logs
+	$id=$conexion->lastInsertId();
+	$log1 = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)VALUES(NULL,'".$usuario."','".$now."','agregado','agregado personal id $id')";
+	$stmt1=$conexion2->prepare($log1);
+	$stmt1->execute();
+*/
+				
+		if ($_FILES["fotografia"]["tmp_name"]!="")
 		{
-			comprobar_previsualizacion("administracion/db/videos/".$nombre_de_video[0],"previsualizaciones","1");
+			$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');								$foto_id="fotografia_".$id.".jpg?".rand();
+		}else{
+			$foto_id="sin_imagen.jpg";
 		}
+		
+		$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS","");
 
 		
 		echo '<script language="javascript">alert("Oferta insertada correctamente");</script>'; 
-		if($archivo == "video/mp4"){
-			echo "<script> window.location = '?page=ofertas_form&datos=$id';</script>";
-		}else{
-			include "administracion/vistas/ofertas.php";
-		}	
 	}//fin del if si es insert
+include "administracion/vistas/ofertas.php";
+
 ?>

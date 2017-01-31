@@ -1,6 +1,6 @@
 <?php
 session_start();
-	include ('../administracion/db/BBDD.php');
+	include_once "administracion/db/BBDD.php";
    	$bbdd = new Base_de_datos('administracion/db/bbdd.db');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 1 ){exit;}
 if (isset($_GET))
@@ -12,7 +12,7 @@ if (isset($_GET))
 $usuario = $_SESSION['nombre'];
 $now =  date("Y-m-d H:i:s"); 		
 		
-	
+	/*
 	$resultado = $bbdd->consulta("SELECT id, articulo,precio,texto,foto_id,video_id,fecha_inicio,fecha_fin,pases_pendientes,momento_inicial,momento_final,retardo,duracion,canal FROM ofertas where id in ($date)","SELECT","OFERTAS","");
 	
 	foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $res){
@@ -31,6 +31,7 @@ $now =  date("Y-m-d H:i:s");
 	$duracion1 = $res['duracion'];	
 	$canal1 = $res['canal'];	
 	
+	
 	$db3 = new PDO('sqlite:administracion/db/registros.sqlite');
 	$db3->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
@@ -48,7 +49,9 @@ $replace = "REPLACE INTO personal ('id','nombre','apellido1','apellido2','fecha_
 	$log = "INSERT INTO logs('id','usuario','fecha','accion','descripcion')VALUES(NULL,'".$usuario."','".$now."','vaciado de personal','borrado personal $date')";
 	$stmt1=$db3->prepare($log);
 	$stmt1->execute();
-	$resultado = $bbdd->consulta("DELETE FROM personal WHERE id in ($id)","DELETE","OFERTAS","");	
+	*/
+	
+	$resultado = $bbdd->consulta("DELETE FROM ofertas WHERE id in ($date)","DELETE","OFERTAS","");	
 	
   	}
 }
@@ -58,11 +61,11 @@ $replace = "REPLACE INTO personal ('id','nombre','apellido1','apellido2','fecha_
 <!--
 var answer = confirm("Personal vaciado correctamente correctamente");
 if (!answer){
-window.location = "administracion/vistas/personas.php";
+window.location = "administracion/vistas/ofertas.php";
 }
 //-->
 </script>
 
 <?php
-	include "administracion/vistas/personas.php";
+	include "administracion/vistas/ofertas.php";
 	?>
