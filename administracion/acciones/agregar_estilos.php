@@ -1,6 +1,6 @@
 <?php		
    	session_start();
-   	include("comprobar_previsualizacion.php");
+
    	include_once "administracion/db/BBDD.php";
    	$bbdd = new Base_de_datos('administracion/db/bbdd.db');
    
@@ -12,25 +12,30 @@
 if ($_SESSION['nivel'] == ''){exit;}
 	
 $op = $_POST['op']; 
-$id_antiguo = $_POST['id_antiguo'];
-$id = $_POST['id'];	
-$articulo = $_POST['articulo'];
-$precio = $_POST['precio'];	
-$texto = $_POST['texto'];
-$fotografia = $_POST['fotografia'];
-$fecha_inicio = $_POST['fecha_inicio'];	
-$fecha_fin = $_POST['fecha_fin'];
-$pases_pendientes = $_POST['pases_pendientes'];
-$momento_inicial = $_POST['momento_inicial'];	
-$momento_final = $_POST['momento_final'];
-$retardo = $_POST['retardo'];	
-$duracion = $_POST['duracion'];	
-$canal = $_POST['canal'];	
+$id = $_POST['id'];
+	
+$bloquea = $_POST['bloquea'];
+$bloqueb = $_POST['bloqueb'];
+$bloquec = $_POST['bloquec'];
+$bloqued = $_POST['bloqued'];
+//insertado en los bloques para la animacion de entrada
+$fecha1 = $_POST['fecha1'];
+$titular1 = $_POST['titular1'];
+$video1 = $_POST['video1'];
+$noticia1 = $_POST['noticia1'];
+//insertado en los bloques para la animacion de salida
+$fecha2 = $_POST['fecha2'];	
+$titular2 = $_POST['titular2'];
+$video2 = $_POST['video2'];
+$noticia2 = $_POST['noticia2'];	
+
+$estilo = $_POST['estilo'];
+$descripcion = $_POST['descripcion'];
 
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
 
-
+/*
 $resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
 $res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
@@ -172,26 +177,26 @@ include "administracion/vistas/ofertas.php";
 if ($op=="insert"){
 if ( $_SESSION['nivel'] < $nivel_editar){exit;}
 
-$insertar = 'INSERT INTO ofertas (`id`,`articulo`,`precio`,`texto`,`foto_id`,`video_id`,`fecha_inicio`,fecha_fin,`pases_pendientes`,`momento_inicial`,`momento_final`,`retardo`,`duracion`,`canal`) VALUES
-'." (NOT NULL,
-'".$articulo."',
-'".$precio."',
-'".$texto."',
-'".$foto_id."',
-'".$video_id."',
-'".$fecha_inicio."',
-'".$fecha_fin."',
-'".$pases_pendientes."',
-'".$momento_inicial."',
-'".$momento_final."',
-'".$retardo."',
-'".$duracion."',
-'".$canal."')";
+$insertar_estilo = "INSERT INTO estilos (id,estilo,descripcion)VALUES(NOT NULL,'".$estilo."','".$descripcion."')";
+$bbdd->consulta($insertar_estilo,"INSERT","ESTILOS","");
+$id_estilo = $bbdd->resultado_id();
 
- $bbdd->consulta($insertar,"INSERT","OFERTAS","");
- $id = $bbdd->resultado_id();
+$insertar_estilos = "INSERT INTO plantillas_de_estilos (id,id_estilo,id_bloque,id_tipo_animacion,id_animacion) 
+VALUES 
+(NOT NULL,'".$id_estilo."','".$bloquea."','1','".$fecha1."'),
+(NOT NULL,'".$id_estilo."','".$bloqueb."','1','".$titular1."'),
+(NOT NULL,'".$id_estilo."','".$bloquec."','1','".$video1."'),
+(NOT NULL,'".$id_estilo."','".$bloqued."','1','".$noticia1."'),
 
-			
+(NOT NULL,'".$id_estilo."','".$bloquea."','2','".$fecha2."'),
+(NOT NULL,'".$id_estilo."','".$bloqueb."','2','".$titular2."'),
+(NOT NULL,'".$id_estilo."','".$bloquec."','2','".$video2."'),
+(NOT NULL,'".$id_estilo."','".$bloqued."','2','".$noticia2."')"; 
+
+ $bbdd->consulta($insertar_estilos,"INSERT","PLANTILAS_DE_ESTILOS","");
+ //$id = $bbdd->resultado_id();
+
+		
 		echo '<script language="javascript">alert("Oferta agregada correctamente");</script>'; 	
 		echo '<script language="javascript">alert("Actualiza o agrega fotografia");</script>'; 
 		echo "<script> window.location = '?page=ofertas_form&datos=$id';</script>";	

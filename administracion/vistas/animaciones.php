@@ -31,19 +31,8 @@ if (isset($_REQUEST['searchPhrase']) )
   {
     $search=trim($_REQUEST['searchPhrase']);
   	$where.= " AND ( id LIKE '".$search."%' OR 
-  	 articulo LIKE '".$search."%' OR 
-  	  precio LIKE '".$search."%' OR 
-  	  texto LIKE '".$search."%'OR
-  	    foto_id LIKE '".$search."%' OR
-  	     video_id LIKE '".$search."%' OR 
-  	      fecha_inicio LIKE '".$search."%' OR
-  	       fecha_fin LIKE '".$search."%' OR
-  	        pases_pendientes LIKE '".$search."%' OR
-  	         momento_inicial LIKE '".$search."%' OR 
-  	         momento_final LIKE '".$search."%' OR 
-  	         retardo LIKE '".$search."%' OR
-  	          duracion LIKE '".$search."%' OR 
-  	          canal LIKE '".$search."%') "; 
+  	 animacion LIKE '".$search."%' OR 	
+  	 descripcion LIKE '".$search."%') "; 
 	}
 
 //Handles determines where in the paging count this result set falls in
@@ -64,9 +53,9 @@ else
 $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection
-$sql="SELECT id, articulo,precio,texto,foto_id,video_id,fecha_inicio,fecha_fin,pases_pendientes,momento_inicial,momento_final,retardo,duracion,canal FROM ofertas";
+$sql="SELECT id, animacion,descripcion FROM animaciones";
 
-	$result = $bbdd->consulta($sql,"select","ofertas","$nivel");
+	$result = $bbdd->consulta($sql,"select","animaciones","$nivel");
 	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
 	$json = json_encode($results_array);
 	$json = urldecode(stripslashes($json)); 

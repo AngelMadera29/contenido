@@ -1,7 +1,7 @@
-
 <?php 
-	session_start();
-include ('../administracion/db/BBDD.php');
+session_start();
+include_once "comprobar_previsualizacion.php";
+include_once "administracion/db/BBDD.php";
 $bbdd = new Base_de_datos('administracion/db/bbdd.db');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
@@ -18,11 +18,8 @@ if (isset($_GET))
 	if ($id != "")
 	{
 
-
 	$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","select","ofertas","");
 	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
-
-
 
 $id = $res['id'];	
 $articulo = $res['articulo'];
@@ -85,17 +82,16 @@ else
     <legend>Agregar Noticias</legend>
 <div class="row">
 	 							<div class="col-md-6">
-		 							
-<div class="container" id="foto">        
 	<?php
-if ($fotografia != "")
-{	
+echo "<div class='container' id='foto'>";  
+if($fotografia != ""){
   echo "<img src='administracion/db/imagenes/$fotografia' class='img-thumbnail'  width='300' height='200'> ";
-}else{
-  echo "<img src'previsualizaciones/$video_id' class='img-thumbnail'  width='300' height='200'> ";
+}if($video_id != "" ){
+	$fichero_gif="administracion/db/previsualizaciones/".replace_extension($video_id,"gif");
+   echo "<img src='$fichero_gif' class='img-thumbnail'  width='300' height='200'> ";
 }
+echo "</div>";
   ?>
-</div>
 <script>
   function placeDiv(x_pos, y_pos) {
   var d = document.getElementById('foto');
@@ -131,11 +127,23 @@ if ($fotografia != "")
         <input type="text" class="form-control" name="texto" value="<?php echo $texto;?>" id="texto" placeholder="texto" maxlength="20" required>
       </div>
     </div>
- <div class="form-group"> 
-<label for="inputEmail" class="col-lg-2 control-label">Fotografia</label>
-      <div class="col-xs-4">   
-	      <input type="file" name="fotografia" id="fotografia" onchange="previewFile()"  >
-	     
+    <?php
+	    if($fotografia == "" && $video_id == "" || $id == ""){
+	echo "<div class='form-group'>";
+	echo "<label for='inputEmail' class='col-lg-2 control-label'></label>";
+	echo "<div class='col-xs-4'>"   ;
+	echo "</div>";
+	echo "</div>";
+		    
+	    }if($id != ""){
+	echo "<div class='form-group'>";
+	echo "<label for='inputEmail' class='col-lg-2 control-label'>Archivo</label>";
+	echo "<div class='col-xs-4'>"   ;
+	echo "<input type='file' name='fotografia' id='fotografia' onchange='previewFile()'  >";
+	echo "</div>";
+	echo "</div>";
+	}
+	     ?>
 <script type="text/javascript">
         function previewFile() {
   var preview = document.querySelector('img');
@@ -153,8 +161,7 @@ if ($fotografia != "")
   }
 }
     </script> 
-      </div>
- </div>
+
  
 
 	 							</div>

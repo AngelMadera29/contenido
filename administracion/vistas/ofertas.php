@@ -1,5 +1,6 @@
 <?php
 // session_start();
+include_once "administracion/acciones/comprobar_previsualizacion.php";
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 ?>
@@ -85,7 +86,7 @@ echo "";
 				<th data-field="articulo" data-filter-control="input">Articulo</th> 
 				<th data-field="precio" data-filter-control="input">Precio</th> 
 				<th data-field="texto" data-filter-control="input">Texto</th> 
-				<th data-field="video_id" data-filter-control="select" >Video</th>
+				<th data-field="video_id" data-formatter="imageFormatter1">Video</th>
 				<th data-field="fecha_inicio" >Fecha I.</th>
 				<th data-field="fecha_fin" >Fecha F.</th>
 				<th data-field="pases_pendientes" data-filter-control="select" >Pases P.</th>	
@@ -136,6 +137,12 @@ echo "";
 	function imageFormatter(value, row) {
       return "<img width=50 src='administracion/db/imagenes/" + value + "'>";
     }
+    
+	function imageFormatter1(value, row) {
+		var file = value.replace(/\.[^\.]+$/, '.gif');
+      return "<img width=100 src='administracion/db/previsualizaciones/" + file + "'>";
+    }
+ 
     
     function dataFormater(value, row, index) {
 

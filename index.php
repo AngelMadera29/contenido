@@ -59,7 +59,7 @@
         <ul class="dropdown-menu">
 	     <?php  
 echo "    <li><a href='?page=ofertas'>Lista de ofertas</a></li>";
-echo "	  <li><a href='?page=thum'>lista</a></li>";
+echo "	  <li><a href='?page=prueba_tablas'>lista</a></li>";
 if($_SESSION['nivel'] >= 2){
     echo "    <li><a href='?page=usr'>Lista de Usuarios</a></li>";
 }else{
@@ -104,7 +104,7 @@ if($_SESSION['nivel'] >= 2){
 			include "administracion/acciones/ofertas_form.php";
 			break;	
 			case 'ofertas_add':
-			include "administracion/acciones/agregar_oferta2.php";
+			include "administracion/acciones/agregar_ofertas.php";
 			break;				
 		//accion para abrir formulario de registro de nuevos usuarios
 			case 'usuario_form':
@@ -116,6 +116,48 @@ if($_SESSION['nivel'] >= 2){
 			case 'del_usuario':
 			include "administracion/acciones/del_usuario.php";
 			break;	
+			
+			
+			
+			
+			//vistas de los bloques nuevos
+			case 'animaciones':
+			include "administracion/vistas/animaciones.php";
+			break;	
+			//seccion de control de registros de noticias
+			case 'animaciones_form':
+			include "administracion/acciones/animaciones_form.php";
+			break;	
+			case 'ofertas_add':
+			include "administracion/acciones/agregar_ofertas.php";
+			break;				
+			
+			
+			case 'bloques':
+			include "administracion/vistas/bloques.php";
+			break;	
+			//seccion de control de registros de noticias
+			case 'bloques_form':
+			include "administracion/acciones/bloques_form.php";
+			break;	
+			case 'ofertas_add':
+			include "administracion/acciones/agregar_ofertas.php";
+			break;	
+						
+			case 'estilos':
+			include "administracion/vistas/plantillas.php";
+			break;	
+			//seccion de control de registros de noticias
+			case 'estilos_form':
+			include "administracion/acciones/estilos_form.php";
+			break;	
+			case 'estilos_add':
+			include "administracion/acciones/agregar_estilos.php";
+			break;	
+
+			case 'prueba_tablas':
+			include "administracion/vistas/tablas.php";
+			break;		
 			
 					
 			
