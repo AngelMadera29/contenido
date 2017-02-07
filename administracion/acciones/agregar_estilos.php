@@ -194,8 +194,6 @@ VALUES
 (NOT NULL,'".$id_estilo."','".$bloqued."','2','".$noticia2."')"; 
 
  $bbdd->consulta($insertar_estilos,"INSERT","PLANTILAS_DE_ESTILOS","");
- //$id = $bbdd->resultado_id();
-
 		
 		echo '<script language="javascript">alert("Oferta agregada correctamente");</script>'; 	
 		echo '<script language="javascript">alert("Actualiza o agrega fotografia");</script>'; 

@@ -100,11 +100,6 @@ else
   <h3>Tipo de Bloque</h3>
 	 <label for="inputEmail" class="control-label">Sección</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	 <?php 		 
-$conexion = $bbdd->consulta("SELECT id_bloque from plantillas_de_estilos where id = '".$id."'");
-$blo = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
-$id_bloque = $blo['id_bloque'];
-
-		 
 $resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
 echo '<select name="bloquea" id="bloquea" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
@@ -113,6 +108,7 @@ foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
             {
 	            echo " selected='selected'";
             }
+
             echo ' placeholder="Bloques">';
             echo $row['bloque'];
                         echo '</option>';  

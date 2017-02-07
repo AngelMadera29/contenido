@@ -1,8 +1,23 @@
 <?php
 	
-include ("BBDD.php");
+include_once "BBDD.php";
 
 $bbdd = new Base_de_datos('bbdd.db');	
+
+
+$conexion = $bbdd->consulta("SELECT distinct id_bloque  from plantillas_de_estilos where id_estilo = 3 ");
+$blo = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$eso = $blo[0];
+echo $eso;
+
+
+$query = $bbdd->consulta("SELECT distinct id_bloque  from plantillas_de_estilos where id_estilo = 3 ");
+$result = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
+foreach ($result as $entry) {
+$id = $entry[0]; 
+   echo $id;
+   }
+
 
 //$bbdd->consulta("SELECT * FROM 'canales' LIMIT 0, 30","select","canales","");
 
@@ -28,24 +43,24 @@ echo $texto;
 
 //	echo "User :$nombre\n nivel: {$row['nivel']}<br>";	
 
-
+/*
 metodo ue devuelve el numero de consultas o total de la consulta mediante el objeto
 $result = $bbdd->consulta("SELECT * FROM ofertas WHERE 1 AND fecha_inicio<=datetime('now','localtime') AND fecha_fin>=datetime('now','localtime') AND momento_inicial<= datetime('now','localtime') AND momento_final>=datetime('now','localtime') order by RANDOM()");
 $result = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
 $filas =  count($result);
 echo "Number of rows: $filas";
 
-*/
+
 
 //metodo que devuelve completamente dentro de un foreach toddos los datos seleccionados para la consulta
-$result = $bbdd->consulta("SELECT * FROM ofertas","select","ofertas","");
+$result = $bbdd->consulta("select id,id_bloque,id_animacion from plantillas_de_estilos where id_estilo = 3 and id_tipo_animacion = 1 order by id asc","select","ofertas","");
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $valor){
 		
-$id1 = $valor['id'];	
-$articulo1 = $valor['articulo'];
-$precio1 = $valor['video_id'];	
+$id = $valor['id'];	
+$id_bloque = $valor['id_bloque'];
+//$id_animacion = $valor['id_animacion'];	
 
-echo "Id :$id1\n Articulo: :$articulo1\n Precio: :$precio1\n <br>";	
+echo "Id :$id\n Articulo: :$id_bloque\n Precio: :$id_animacion\n <br>";	
 
 }
 
