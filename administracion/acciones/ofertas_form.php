@@ -83,13 +83,15 @@ else
     <legend>Agregar Noticias</legend>
 <div class="row">
 	 							<div class="col-md-6">
+		 							
+		 						
 	<?php
 echo "<div class='container' id='foto'>";  
 if($fotografia != ""){
-  echo "<img src='administracion/db/imagenes/$fotografia' class='img-thumbnail'  width='300' height='200'> ";
+  echo "<img  src='administracion/db/imagenes/$fotografia' class='img-thumbnail'  width='300' height='200'> ";
 }if($video_id != "" ){
 	$fichero_gif="administracion/db/previsualizaciones/".replace_extension($video_id,"gif");
-   echo "<img src='$fichero_gif' class='img-thumbnail'  width='300' height='200'> ";
+   echo "<img id='myImg' src='$fichero_gif' class='img-thumbnail'  width='300' height='200'> ";
 }
 echo "</div>";
   ?>
@@ -189,8 +191,41 @@ foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
     
     ?>
 
+
+
+
 	 							</div>
 	 							<div class="col-md-6">
+		 							        
+<?php
+ 	  echo " <div class='form-group'>
+	  <label for='inputEmail' class='col-lg-2 control-label'>Video</label>
+	&nbsp;&nbsp;&nbsp;";
+$resultado = $bbdd->consulta("SELECT video_id FROM ofertas","select","estilos",""); //replace exec with query
+echo '<select name="video" id="video"  onchange="myFunction()" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['video_id'].'" ';
+	        if ($row['video_id']==$video)
+            {
+	            echo " selected='selected'";
+            }
+            echo ' placeholder="Estilos">';
+            echo $row['video_id'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> ';    
+    echo "</div>";
+	?>
+<script>
+function myFunction() {
+	var x = document.getElementById("video").value;
+	var file = x.replace(/\.[^\.]+$/, '.gif');
+    document.getElementById("myImg").src = "administracion/db/previsualizaciones/"+file;
+}
+</script>
+
+    
+    
 <div class="form-group">
       <label for="inputEmail" class="col-lg-2 control-label">Fecha de inicio</label>
       <div class="col-xs-4">

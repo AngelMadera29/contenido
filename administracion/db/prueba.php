@@ -1,10 +1,55 @@
+<img id="myImg" src="usuario.jpg" width="107" height="98">
+
+<?php
+	include_once "BBDD.php";
+
+$bbdd = new Base_de_datos('bbdd.db');	
+ 	 
+$resultado = $bbdd->consulta("SELECT foto_id FROM ofertas","select","estilos",""); //replace exec with query
+echo '<select name="video" id="video"  onchange="myFunction()" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['foto_id'].'" ';
+	        if ($row['foto_id']==$video)
+            {
+	            echo " selected='selected'";
+            }
+            echo ' placeholder="Estilos">';
+            echo $row['foto_id'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> ';    
+    echo "</div>";
+	?>
+<script>
+function myFunction() {
+	var x = document.getElementById("video").value;
+    document.getElementById("myImg").src = "imagenes/"+ x;
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <?php
 	
 include_once "BBDD.php";
 
 $bbdd = new Base_de_datos('bbdd.db');	
-
-//$bbdd->consulta("SELECT * FROM 'canales' LIMIT 0, 30","select","canales","");
+ 
 
 /*
 while($bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT))
@@ -39,15 +84,8 @@ echo "Number of rows: $filas";
 
 */
 
-//$resul = $bbdd->consulta("select id_animacion from plantillas_de_estilos where id_estilo = 3 ","select","estilos","");
-//$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC);
-
-
-
-//$select = $bbdd->consulta("select id_animacion from plantillas_de_estilos where id_estilo = 3 ","select","estilos","");
-//$result = $bbdd->obtener_resutado(PDO::FETCH_ASSOC);
-
 // run query
+/*
 $query = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 3 ","select","estilos","");
 
 

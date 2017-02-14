@@ -27,6 +27,7 @@ $retardo = $_POST['retardo'];
 $duracion = $_POST['duracion'];	
 $canal = $_POST['canal'];	
 $id_estilo = $_POST['id_estilo'];
+$video = $_POST['video'];
 
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
@@ -80,9 +81,12 @@ if ($op=="update"){
 		id_estilo_animacion = '".$id_estilo."'
 		WHERE id = '".$id_antiguo."'";
 		
-
-
 		$bbdd->consulta($actulizar,"UPDATE","OFERTAS","");
+		
+		
+		if ($video_id1 != $video){
+			$bbdd->consulta("UPDATE ofertas SET video_id = '".$video."' WHERE id = '".$id_antiguo."' ","UPATE","OFERTAS","");
+		}
 	
 
 		//comprobamos la extencion del archivo
