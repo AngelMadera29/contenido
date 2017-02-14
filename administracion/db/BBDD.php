@@ -10,7 +10,7 @@ class Base_de_datos {
 	//metodos
 	public function __construct($bbdd){
 	$this->bbdd = $bbdd;	
-	$this->conexion = new PDO ("sqlite:$bbdd") or die ('No conexion con base de datos');
+	$this->conexion = new PDO("sqlite:$bbdd") or die ('No conexion con base de datos');
 	$this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $this->conexion->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 		

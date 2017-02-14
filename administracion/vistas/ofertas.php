@@ -31,17 +31,9 @@ $nivel = $_SESSION['nivel'];
 
 	echo "<div class='col-md-8'>";
 echo "<h3> Noticias </h3>";
-	 if ($nivel == 0){	 
-echo "<a href='?page=invitado_form' class='btn btn-primary'>Añadir invitado</a> "; 
-	 }else{
-echo "";
-	 }
-	 ?>
-	 <?php
 	 if ($nivel >= 1){	 
-echo "<a href='?page=invitado_form' class='btn btn-info'>Añadir invitado</a> "; 
-echo "<a href='?page=ofertas_form' class='btn btn-primary'>Añadir personal</a> ";
-echo "<button id='show' class='btn btn-danger' disabled>Vaciar registros</button>";
+echo "<a href='?page=ofertas_form' class='btn btn-primary'>Añadir Ofertas</a> ";
+echo "<button id='show' class='btn btn-danger' disabled>Vaciar Ofertas</button>";
 	 }else{
 echo "";
 	 }
@@ -95,6 +87,7 @@ echo "";
 				<th data-field="retardo" data-filter-control="select">Retardo</th>
 				<th data-field="duracion" >Duracion</th>
 				<th data-field="canal" >Canal</th>
+				<th data-field="id_estilo_animacion" >Estilo</th>
             </tr>
             </thead>
         </table> 

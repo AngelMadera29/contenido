@@ -35,6 +35,7 @@ $momento_final = $res['momento_final'];
 $retardo = $res['retardo'];	
 $duracion = $res['duracion'];	
 $canal = $res['canal'];	
+$id_estilo = $res['id_estilo_animacion'];
 		}		
 		
 }
@@ -121,10 +122,11 @@ echo "</div>";
       </div>
     </div>
 
-<div class="form-group">
+    <div class="form-group">
       <label for="inputEmail" class="col-lg-2 control-label">Texto</label>
-      <div class="col-xs-4">
-        <input type="text" class="form-control" name="texto" value="<?php echo $texto;?>" id="texto" placeholder="texto" maxlength="20" required>
+      <div class="col-sm-4">
+   <textarea class="form-control" rows="3" id="texto" name="Texto" placeholder="Descripcion" equired="required"
+  autocomplete="on" ><?php echo $texto;?></textarea>
       </div>
     </div>
     <?php
@@ -161,8 +163,31 @@ echo "</div>";
   }
 }
     </script> 
-
- 
+    
+    
+    <?php
+if($id != ""){	
+ echo " <div class='form-group'>
+	  <label for='inputEmail' class='col-lg-2 control-label'>Estilo</label>
+	&nbsp;&nbsp;&nbsp;";
+ 	 
+$resultado = $bbdd->consulta("SELECT * FROM estilos ORDER by estilo ASC","select","estilos",""); //replace exec with query
+echo '<select name="id_estilo" id="id_estilo" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$id_estilo)
+            {
+	            echo " selected='selected'";
+            }
+            echo ' placeholder="Estilos">';
+            echo $row['estilo'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> ';    
+    echo "</div>";
+    }
+    
+    ?>
 
 	 							</div>
 	 							<div class="col-md-6">

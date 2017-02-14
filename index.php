@@ -59,7 +59,7 @@
         <ul class="dropdown-menu">
 	     <?php  
 echo "    <li><a href='?page=ofertas'>Lista de ofertas</a></li>";
-echo "	  <li><a href='?page=prueba_tablas'>lista</a></li>";
+echo "	  <li><a href='?page=prueba_tablas'>Listas de Estilos</a></li>";
 if($_SESSION['nivel'] >= 2){
     echo "    <li><a href='?page=usr'>Lista de Usuarios</a></li>";
 }else{

@@ -43,7 +43,8 @@ if (isset($_REQUEST['searchPhrase']) )
   	         momento_final LIKE '".$search."%' OR 
   	         retardo LIKE '".$search."%' OR
   	          duracion LIKE '".$search."%' OR 
-  	          canal LIKE '".$search."%') "; 
+  	          canal LIKE '".$search."%'OR
+  	          id_estilo_animacion LIKE '".$search."%'  ) "; 
 	}
 
 //Handles determines where in the paging count this result set falls in
@@ -64,7 +65,7 @@ else
 $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection
-$sql="SELECT id, articulo,precio,texto,foto_id,video_id,fecha_inicio,fecha_fin,pases_pendientes,momento_inicial,momento_final,retardo,duracion,canal FROM ofertas";
+$sql="SELECT id, articulo,precio,texto,foto_id,video_id,fecha_inicio,fecha_fin,pases_pendientes,momento_inicial,momento_final,retardo,duracion,canal,id_estilo_animacion FROM ofertas";
 
 	$result = $bbdd->consulta($sql,"select","ofertas","$nivel");
 	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);

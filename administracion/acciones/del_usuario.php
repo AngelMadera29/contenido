@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include ('../administracion/db/BBDD.php');
+	include_once "administracion/db/BBDD.php";
    	$bbdd = new Base_de_datos('administracion/db/bbdd.db');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 2 ){exit;}
 

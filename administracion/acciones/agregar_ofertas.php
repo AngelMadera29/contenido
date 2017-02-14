@@ -26,6 +26,7 @@ $momento_final = $_POST['momento_final'];
 $retardo = $_POST['retardo'];	
 $duracion = $_POST['duracion'];	
 $canal = $_POST['canal'];	
+$id_estilo = $_POST['id_estilo'];
 
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
@@ -49,6 +50,7 @@ $momento_final1 = $res['momento_final'];
 $retardo1 = $res['retardo'];	
 $duracion1 = $res['duracion'];	
 $canal1 = $res['canal'];	
+$id_estilo1 = $_POST['id_estilo_animacion'];
 	
 /*if($bbdd_tipo=="sqlite"){
 	$conexion2 = new PDO("sqlite:administracion/db/registros.sqlite");
@@ -74,8 +76,11 @@ if ($op=="update"){
 		momento_final = '".$momento_final."',
 		retardo = '".$retardo."',
 		duracion = '".$duracion."',
-		canal = '".$canal."'
+		canal = '".$canal."',
+		id_estilo_animacion = '".$id_estilo."'
 		WHERE id = '".$id_antiguo."'";
+		
+
 
 		$bbdd->consulta($actulizar,"UPDATE","OFERTAS","");
 	
@@ -85,20 +90,23 @@ if ($op=="update"){
 		$trozos = explode(".", $archivo); 
 		$extension = end($trozos); 
 		
+		
 		// mostramos la extensión del archivo
-		if ($archivo != "video/mp4"){
+		if ($archivo != "video/mp4" ){
 			//si el archivo es fotografia este lo mandara direnctamente a esta opcion
+			if($foto_id1 != ""){}
 			if ($_FILES["fotografia"]["tmp_name"]!="")
 			{
 		
 			//$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
 			move_uploaded_file($_FILES["fotografia"]["tmp_name"], "administracion/db/imagenes/fotografia_".$id.".jpg");	
 			$foto_id="fotografia_".$id.".jpg?".rand();
-															}else{
+													 }else{
 			$foto_id="sin_imagen.jpg";
 											 	 	 }
-
+	
 			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","ofertas","");
+		
 		//fin de la opcion si el tipo de archivo es fotogrfia
 			
 			  }else{		

@@ -17,13 +17,12 @@ if (isset($_GET))
 	if ($id != "")
 	{
 
-	$resultado = $bbdd->consulta("SELECT * from estilos where id = '".$id."'","select","estilos","");
-	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$resultado = $bbdd->consulta("SELECT * from estilos where id = '".$id."'","select","estilos","");
+$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 $id_estilo = $res['id'];	
 $estilo = $res['estilo'];
 $descripcion = $res['descripcion'];	
-
 		}		
 		
 }
@@ -62,21 +61,23 @@ else
         
 	</head>
 	<body>
-	
-
 		
 <form class="form-horizontal" role="form" action="?page=estilos_add" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="op" value="<?php echo $accion;?>">
 				<input type="hidden" name="id" value="<?php echo $id;?>">  
 <fieldset>
+	
     <legend>Nombre del estilo</legend>
-     <div class="form-group">
-      <label for="inputEmail" class="col-lg-2 control-label">Id</label>
-      <div class="col-sm-2">
-        <input type="text" class="form-control" name="id" value="<?php echo $id_estilo;?>"  id="id" placeholder="Id">
+    <?php
+	    if($id_estilo!= "")	{ 
+ echo " <div class='form-group'>
+      <label for='inputEmail' class='col-lg-2 control-label'>Id</label>
+      <div class='col-sm-2'>
+        <input type='text' class='form-control' name='id' value=' $id_estilo'  id='id' placeholder='Id'>
       </div>
-    </div>
-
+    </div> ";
+    }
+	?>
     <div class="form-group">
       <label for="inputEmail" class="col-lg-2 control-label">Nombre de estilo</label>
       <div class="col-sm-4">
@@ -90,26 +91,25 @@ else
   autocomplete="on" ><?php echo $descripcion;?></textarea>
       </div>
     </div>
-
 </fieldset>	
-				
+
 <fieldset>
-    <legend>Caracteristicas estilo</legend> 
+    <legend>Características estilo</legend> 
     <div class="row">
   <div class="col-sm-4">	
   <h3>Tipo de Bloque</h3>
 	 <label for="inputEmail" class="control-label">Sección</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 <?php 		 
-$conexion = $bbdd->consulta("SELECT id_bloque from plantillas_de_estilos where id = '".$id."'");
-$blo = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
-$id_bloque = $blo['id_bloque'];
-
-		 
+ <?php	
+if($id_estilo != ""){	 	 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 1 and id_bloque = 1","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT); 
+$bloquea = $resp['id_bloque'];
+ }
 $resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
 echo '<select name="bloquea" id="bloquea" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
-	        if ($row['id']==$bloque)
+	        if ($row['id']==$bloquea)
             {
 	            echo " selected='selected'";
             }
@@ -119,63 +119,17 @@ foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
         } 
      echo '   </select></p> ';    
 		 ?>
-	  <label for="inputEmail" class="control-label">Sección</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	   <?php 
-		$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
-echo '<select name="bloqueb" id="bloqueb" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
-	        echo '<option value="'.$row['id'].'" ';
-	        if ($row['id']==$bloque)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Bloques">';
-            echo $row['bloque'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';
-		 ?>
-	  <label for="inputEmail" class="control-label">Sección</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	   <?php 
-		$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
-echo '<select name="bloquec" id="bloquec" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
-	        echo '<option value="'.$row['id'].'" ';
-	        if ($row['id']==$bloque)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Bloques">';
-            echo $row['bloque'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';
-		 ?>
-
-	  <label for="inputEmail" class="control-label">Sección</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	   <?php 
-		$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
-echo '<select name="bloqued" id="bloqued" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
-	        echo '<option value="'.$row['id'].'" ';
-	        if ($row['id']==$bloque)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Bloques">';
-            echo $row['bloque'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';
-		 ?>
-
   </div>
-  <div class="col-sm-4">
-  <h3>Animación Entrada</h3>
-	<?php
+  <div class="col-sm-4">	
+   <h3>Animación Entrada</h3>  
+ <?php
+if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 1 and id_bloque = $bloquea","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$animacion = $resp['id_animacion'];
+}
+
+$bloquea = $resp['id_bloque'];
 $resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
 echo '<select name="fecha1" id="fecha1" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
@@ -190,64 +144,16 @@ foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
                         echo '</option>';  
         } 
      echo '   </select></p> ';   
-     
-     //-------------------------------------------    
-$resultado1 = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
-echo '<select name="titular1" id="titular1" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row1){
-	        echo '<option value="'.$row1['id'].'" ';
-	        if ($row['id']==$animacion)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Animaciones">';
-            echo $row1['animacion'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';   
-     //-------------------------------------------   
-      
-$resultado2 = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
-echo '<select name="video1" id="video1" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row2){
-	        echo '<option value="'.$row2['id'].'" ';
-	        if ($row['id']==$animacion)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Animaciones">';
-            echo $row2['animacion'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';   
-     //-------------------------------------------    
-     
-$resultado3 = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
-echo '<select name="noticia1" id="noticia1" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row3){
-	        echo '<option value="'.$row3['id'].'" ';
-	        if ($row['id']==$animacion)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Animaciones">';
-            echo $row3['animacion'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';   
-     //-------------------------------------------    
-      
-         
-	?>  
-	  
-	  
+		 ?>
   </div>
-  <div class="col-sm-4">
-	  <h3>Animación Salida</h3>
-	<?php
+  <div class="col-sm-4">	
+  <h3>Animación Salida</h3>
+ <?php
+	 if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 2 and id_bloque = $bloquea","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$animacion = $resp['id_animacion'];
+}
 $resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
 echo '<select name="fecha2" id="fecha2" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
@@ -261,62 +167,232 @@ foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
             echo $row['animacion'];
                         echo '</option>';  
         } 
-     echo '   </select></p> ';   
-     
-     //-------------------------------------------    
-$resultado1 = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
-echo '<select name="titular2" id="titular2" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row1){
-	        echo '<option value="'.$row1['id'].'" ';
-	        if ($row['id']==$animacion)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Animaciones">';
-            echo $row1['animacion'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';   
-     //-------------------------------------------   
-      
-$resultado2 = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
-echo '<select name="video2" id="video2" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row2){
-	        echo '<option value="'.$row2['id'].'" ';
-	        if ($row['id']==$animacion)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Animaciones">';
-            echo $row2['animacion'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';   
-     //-------------------------------------------    
-     
-$resultado3 = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
-echo '<select name="noticia2" id="noticia2" >';
-foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row3){
-	        echo '<option value="'.$row3['id'].'" ';
-	        if ($row['id']==$animacion)
-            {
-	            echo " selected='selected'";
-            }
-
-            echo ' placeholder="Animaciones">';
-            echo $row3['animacion'];
-                        echo '</option>';  
-        } 
-     echo '   </select></p> ';   
-     //-------------------------------------------       
-	?> 
+     echo '   </select></p> ';    
+		 ?>
   </div>
+ <hr align="left" noshade="noshade" size="2" width="100%" />
+    <!-- una animacion de animacion -->
+  <div class="col-sm-4">		 
+	  <!-- una animacion de animacion-->  
+	  <label for="inputEmail" class="control-label">Sección</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	   <?php 
+		   if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 1 and id_bloque = 2","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT); 
+$bloqueb = $resp['id_bloque']; 
+}
+		$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
+echo '<select name="bloqueb" id="bloqueb" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$bloqueb)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Bloques">';
+            echo $row['bloque'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> ';
+		 ?> 
+	</div>
+  <div class="col-sm-4">	
+	  <?php
+		  if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 1 and id_bloque = $bloqueb","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$animacion = $resp['id_animacion'];
+}		  		  
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+echo '<select name="titular1" id="titular1" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$animacion)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Animaciones">';
+            echo $row['animacion'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> '; 
+ 
+		  ?>
+  </div>
+  <div class="col-sm-4">	
+	   <?php
+		   if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 2 and id_bloque = $bloqueb","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$animacion = $resp['id_animacion'];
+}		  		  
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+echo '<select name="titular2" id="titular2" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$animacion)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Animaciones">';
+            echo $row['animacion'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> '; 
+		   ?>
+   </div>
+<hr align="left" noshade="noshade" size="2" width="100%" />
+	  <!-- una animacion de animacion-->
+  <div class="col-sm-4">	
+	  <label for="inputEmail" class="control-label">Sección</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	   <?php 
+		   if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 1 and id_bloque = 3","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT); 
+$bloquec = $resp['id_bloque']; 
+		}   
+$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
+echo '<select name="bloquec" id="bloquec" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$bloquec)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Bloques">';
+            echo $row['bloque'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> ';
+		 ?>
+ </div>
+  <div class="col-sm-4">	
+	 	 <?php
+		 	 if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 1 and id_bloque = $bloquec","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$animacion = $resp['id_animacion'];
+	}	  		  
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+echo '<select name="video1" id="video1" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$animacion)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Animaciones">';
+            echo $row['animacion'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> '; 
+		 	 ?>
+ 	 </div>	 		 
+  <div class="col-sm-4">
+	 	 <?php
+if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 2 and id_bloque = $bloquec","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$animacion = $resp['id_animacion'];
+}		  		  
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+echo '<select name="video2" id="video2" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$animacion)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Animaciones">';
+            echo $row['animacion'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> '; 
+		 	 ?>
+ 	 </div>
+  <!-- una animacion de animacion -->
+<hr align="left" noshade="noshade" size="2" width="100%" />
+  <div class="col-sm-4">	
+	  <label for="inputEmail" class="control-label">Sección</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	   <?php 
+if($id_estilo!= "")	{ 		   
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_bloque = 4","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT); 
+$bloqued = $resp['id_bloque']; 
+}		   
+$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
+echo '<select name="bloqued" id="bloqued" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$bloqued)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Bloques">';
+            echo $row['bloque'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> ';
+		 ?>
+  </div>
+  <div class="col-sm-4">	
+	 	 <?php
+if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 1 and id_bloque = $bloqued","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$animacion = $resp['id_animacion'];
+}		  		  
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+echo '<select name="noticia1" id="noticia1" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$animacion)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Animaciones">';
+            echo $row['animacion'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> '; 		 
+     	 ?>
+ 	 </div>	 		 
+  <div class="col-sm-4">
+	 	 <?php
+if($id_estilo!= "")	{ 
+$resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = $id_estilo and id_tipo_animacion = 2 and id_bloque = $bloqued","select","estilos","");
+$resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$animacion = $resp['id_animacion'];
+}		  		  
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+echo '<select name="noticia1" id="noticia1" >';
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
+	        echo '<option value="'.$row['id'].'" ';
+	        if ($row['id']==$animacion)
+            {
+	            echo " selected='selected'";
+            }
+
+            echo ' placeholder="Animaciones">';
+            echo $row['animacion'];
+                        echo '</option>';  
+        } 
+     echo '   </select></p> '; 	
+     		 	 ?>
+ 	 </div>
 </div>
+
     <div class="form-group">
       <div class="col-lg-10 col-lg-offset-2">
-        <input type="button" name="Cancelar" value="Cancelar" onclick="location='?page=prueba_tablas'">
+        <input type="button" class="btn btn-danger"  name="Cancelar" value="Cancelar" onclick="location='?page=prueba_tablas'">
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
