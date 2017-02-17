@@ -27,7 +27,7 @@ if($op=="actualizar"){
 	if($_POST['id']!=''){
 
 $update = "UPDATE usuarios SET nombre = '".$nombre."', sha_pass = '".$sha1."', nivel = '".$nivel."' WHERE id = '".$id."'";
-		$bbdd->consulta($update,"UPDATE","usuarios","");
+		$bbdd->consulta($update,"UPDATE","USUARIOS","");
 /*
 $log = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)
 VALUES
@@ -47,7 +47,7 @@ echo '<script language="javascript">alert("Usuario actualizado correctamente");<
 if ($op=="insert"){
 	
 $insertar = "INSERT INTO usuarios (`id`,`nombre`,`sha_pass`,`nivel`,`sessionkey`) VALUES (NOT NULL,'".$nombre."','".$sha1."','".$nivel."','')";
-	$bbdd->consulta($insertar,"UPDATE","usuarios","");
+	$bbdd->consulta($insertar,"UPDATE","USUARIOS","");
 	/*
 	//resultado del ultido id registrado
 	$id = $bbdd->resultado_id();

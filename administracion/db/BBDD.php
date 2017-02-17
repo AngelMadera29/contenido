@@ -22,10 +22,20 @@ class Base_de_datos {
 	}
 	
 	
-	public function consulta($consulta,$tipo,$tabla,$session_id){
-		
-	$this->respuesta = $this->conexion->query($consulta);
+	public function autorizador($tipo,$tabla,$session_id){
+		return true;
+		if($tabla == "OFERTAS" || $session_id < "2")
+			return false;
+		if($tabla == "USUARIOS" || $session_id < "2")
+			return false;
 	
+		return true;
+	}
+	
+	public function consulta($consulta,$tipo,$tabla,$session_id){
+		if ($this->autorizador($tipo,$tabla,$session_id))	
+	$this->respuesta = $this->conexion->query($consulta);
+	else exit();
 	}
 	
 	public function obtener_resutado($opciones){
@@ -42,6 +52,7 @@ class Base_de_datos {
 	$this->id_record = $this->conexion->lastInsertId();
 	return $this->id_record;
 	}
+	
 	
 }                     
    

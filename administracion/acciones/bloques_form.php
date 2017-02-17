@@ -17,7 +17,7 @@ if (isset($_GET))
 	if ($id != "")
 	{
 
-	$resultado = $bbdd->consulta("SELECT * from bloques where id = '".$id."'","select","bloques","");
+	$resultado = $bbdd->consulta("SELECT * from bloques where id = '".$id."'","SELECT","BLOQUES","");
 	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 $id = $res['id'];	

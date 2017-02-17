@@ -79,14 +79,14 @@ $upadate6 = "UPDATE plantillas_de_estilos set id_animacion = '".$video2."' where
 $upadate7 = "UPDATE plantillas_de_estilos set id_animacion = '".$noticia1."' where id_estilo = '".$id."' and id_bloque = '".$bloqued."' and id_tipo_animacion = 1 ";
 $upadate8 = "UPDATE plantillas_de_estilos set id_animacion = '".$noticia2."' where id_estilo = '".$id."' and id_bloque = '".$bloqued."' and id_tipo_animacion = 2 ";	
 
-$bbdd->consulta($upadate1,"UPDATE","OFERTAS","");
-$bbdd->consulta($upadate2,"UPDATE","OFERTAS","");
-$bbdd->consulta($upadate3,"UPDATE","OFERTAS","");
-$bbdd->consulta($upadate4,"UPDATE","OFERTAS","");
-$bbdd->consulta($upadate5,"UPDATE","OFERTAS","");
-$bbdd->consulta($upadate6,"UPDATE","OFERTAS","");
-$bbdd->consulta($upadate7,"UPDATE","OFERTAS","");
-$bbdd->consulta($upadate8,"UPDATE","OFERTAS","");
+$bbdd->consulta($upadate1,"UPDATE","ESTILOS","");
+$bbdd->consulta($upadate2,"UPDATE","ESTILOS","");
+$bbdd->consulta($upadate3,"UPDATE","ESTILOS","");
+$bbdd->consulta($upadate4,"UPDATE","ESTILOS","");
+$bbdd->consulta($upadate5,"UPDATE","ESTILOS","");
+$bbdd->consulta($upadate6,"UPDATE","ESTILOS","");
+$bbdd->consulta($upadate7,"UPDATE","ESTILOS","");
+$bbdd->consulta($upadate8,"UPDATE","ESTILOS","");
 			
 				
 		/*

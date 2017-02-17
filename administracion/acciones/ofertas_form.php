@@ -18,7 +18,7 @@ if (isset($_GET))
 	if ($id != "")
 	{
 
-	$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","select","ofertas","");
+	$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
 	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 $id = $res['id'];	
@@ -173,7 +173,7 @@ if($id != ""){
 	  <label for='inputEmail' class='col-lg-2 control-label'>Estilo</label>
 	&nbsp;&nbsp;&nbsp;";
  	 
-$resultado = $bbdd->consulta("SELECT * FROM estilos ORDER by estilo ASC","select","estilos",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM estilos ORDER by estilo ASC","SELECT","ESTILOS",""); //replace exec with query
 echo '<select name="id_estilo" id="id_estilo" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -201,7 +201,7 @@ foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
  	  echo " <div class='form-group'>
 	  <label for='inputEmail' class='col-lg-2 control-label'>Video</label>
 	&nbsp;&nbsp;&nbsp;";
-$resultado = $bbdd->consulta("SELECT video_id FROM ofertas","select","estilos",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT video_id FROM ofertas","SELECT","ESTILOS",""); //replace exec with query
 echo '<select name="video" id="video"  onchange="myFunction()" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['video_id'].'" ';

@@ -65,9 +65,14 @@ else
 $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection
-$sql="SELECT id, articulo,precio,texto,foto_id,video_id,fecha_inicio,fecha_fin,pases_pendientes,momento_inicial,momento_final,retardo,duracion,canal,id_estilo_animacion FROM ofertas";
 
-	$result = $bbdd->consulta($sql,"select","ofertas","$nivel");
+$sql="SELECT ofertas.id, ofertas.articulo, ofertas.precio, ofertas.texto, ofertas.foto_id, ofertas.video_id, ofertas.fecha_inicio, ofertas.fecha_fin, ofertas.pases_pendientes, 
+ofertas.momento_inicial, ofertas.momento_final, ofertas.retardo, ofertas.duracion, ofertas.canal, estilos.estilo as id_estilo_animacion
+FROM ofertas
+left join estilos on 
+ofertas.id_estilo_animacion = estilos.id";
+
+	$result = $bbdd->consulta($sql,"SELECT","OFERTAS","$nivel");
 	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
 	$json = json_encode($results_array);
 	$json = urldecode(stripslashes($json)); 

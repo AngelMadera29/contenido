@@ -23,6 +23,10 @@ include_once("administracion/db/BBDD.php");
 	            $_SESSION['id'] = $user_data['id'];
 	            $_SESSION['nivel'] = $user_data['nivel'];
 	            $_SESSION['nombre'] = $user_data['nombre'];
+	            
+	            $sql="UPDATE usuarios SET sessionkey='".session_id()."' WHERE nombre='".$name."'";
+	            $result = $bbdd->consulta($sql,"select","usuarios","");
+	            
 	            return true;
 	        }
 	        else{

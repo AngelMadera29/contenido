@@ -60,6 +60,7 @@
 	     <?php  
 echo "    <li><a href='?page=ofertas'>Lista de ofertas</a></li>";
 echo "	  <li><a href='?page=prueba_tablas'>Listas de Estilos</a></li>";
+echo "	  <li><a href='?page=videos'>Videos de fondo</a></li>";
 if($_SESSION['nivel'] >= 2){
     echo "    <li><a href='?page=usr'>Lista de Usuarios</a></li>";
 }else{
@@ -77,7 +78,7 @@ if($_SESSION['nivel'] >= 2){
      </li>         
 </ul>
            <ul class="nav navbar-nav navbar-right">
-        <li><a href="index.php?q=logout">Cerrar Sesión</a></li>
+        <li><a href="index.php?q=logout"><?php  echo "<b>";  echo $_SESSION['nombre']; echo "</b>"; echo "&nbsp";?>Cerrar Sesión</a></li>
       </ul>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -116,6 +117,24 @@ if($_SESSION['nivel'] >= 2){
 			case 'del_usuario':
 			include "administracion/acciones/del_usuario.php";
 			break;	
+			
+			
+			
+			//seccion de los videos de fondo 
+			case 'videos':
+			include "administracion/vistas/videos.php";
+			break;	
+			//seccion de control de registros de noticias
+			case 'videos_form':
+			include "administracion/acciones/videos_form.php";
+			break;	
+			case 'videos_add':
+			include "administracion/acciones/agregar_videos.php";
+			break;	
+			case 'vaciado-videos':
+			include "administracion/acciones/vaciado_videos.php";
+			break;			
+
 			
 			
 			

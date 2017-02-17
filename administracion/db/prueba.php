@@ -1,3 +1,46 @@
+<?php	
+$db = new PDO('sqlite:bbdd.db');
+$result = $db->query("SELECT video_id FROM ofertas "); //replace exec with query
+
+foreach($result as $valor){
+	
+$nombre = $valor['video_id'];
+
+$db3 = new PDO('sqlite:bbdd.db');
+$db3->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$insertar = $db3->exec("SELECT video_id
+INTO videos
+FROM ofertas");
+}
+?>
+
+<script type="text/javascript">
+<!--
+var answer = confirm("Registros vaciados correctamente");
+if (!answer){
+window.location = "index.php";
+}
+//-->
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <img id="myImg" src="usuario.jpg" width="107" height="98">
 
 <?php
@@ -85,7 +128,7 @@ echo "Number of rows: $filas";
 */
 
 // run query
-/*
+
 $query = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 3 ","select","estilos","");
 
 
@@ -117,8 +160,6 @@ foreach ($resultado as $row){
 	 echo $nombre_variable."-".$animacion."<br>";
 	 $array_salida[$nombre_variable]=$animacion;
 	
-	  // OR just echo the data:
-	 //echo $row['id_animacion']; // etc
 
 }
 $returnString = http_build_query($array_salida);

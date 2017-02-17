@@ -31,8 +31,8 @@ if (isset($_REQUEST['searchPhrase']) )
   {
     $search=trim($_REQUEST['searchPhrase']);
   	$where.= " AND ( id LIKE '".$search."%' OR 
-  	 estilo LIKE '".$search."%' OR 
-  	  descripcion LIKE '".$search."%') "; 
+  	 nombre LIKE '".$search."%' OR 
+  	  descripcion LIKE '".$search."%' ) "; 
 	}
 
 //Handles determines where in the paging count this result set falls in
@@ -53,9 +53,10 @@ else
 $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection
-$sql="SELECT id, estilo,descripcion FROM estilos";
 
-	$result = $bbdd->consulta($sql,"SELECT","ESTILOS","$nivel");
+$sql="SELECT id, nombre, descripcion from videos";
+
+	$result = $bbdd->consulta($sql,"SELECT","VIDEOS","$nivel");
 	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
 	$json = json_encode($results_array);
 	$json = urldecode(stripslashes($json)); 
