@@ -18,24 +18,13 @@ if (isset($_GET))
 	if ($id != "")
 	{
 
-	$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
+	$resultado = $bbdd->consulta("SELECT * from videos where id = '".$id."'","SELECT","VIDEOS","");
 	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 $id = $res['id'];	
-$articulo = $res['articulo'];
-$precio = $res['precio'];	
-$texto = $res['texto'];
-$fotografia =$res['foto_id'];	
-$video_id = $res['video_id'];
-$fecha_inicio = $res['fecha_inicio'];	
-$fecha_fin = $res['fecha_fin'];
-$pases_pendientes = $res['pases_pendientes'];
-$momento_inicial = $res['momento_inicial'];	
-$momento_final = $res['momento_final'];
-$retardo = $res['retardo'];	
-$duracion = $res['duracion'];	
-$canal = $res['canal'];	
-$id_estilo = $res['id_estilo_animacion'];
+$nombre = $res['nombre'];
+$descripcion = $res['descripcion'];	
+
 		}		
 		
 }
@@ -81,11 +70,11 @@ else
 				<input type="hidden" name="id" value="<?php echo $id;?>">
   <fieldset>
     <legend>Agregar Noticias</legend>
-<div class="row">
+<div class="row" >
 <div class="col-md-12">		 							
 <?php
 echo "<div  style='width:800px; margin:0 auto;'  class='container' id='foto'>";  
-	$fichero_gif="administracion/db/previsualizaciones/".replace_extension($video_id,"gif");
+	$fichero_gif="administracion/db/previsualizaciones/".replace_extension($nombre,"gif");
    echo "<img id='myImg' src='$fichero_gif' class='img-thumbnail'  width='300' height='200'> ";
 echo "</div>";
   ?>

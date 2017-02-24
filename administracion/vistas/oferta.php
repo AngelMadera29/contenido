@@ -2,11 +2,11 @@
 session_start();
 include ('../db/BBDD.php');
 
-$bbdd = new Base_de_datos('../db/bbdd.db');
+$bbdd = new Base_de_datos('../db/bbdd.db','../db/registros.sqlite');
 
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
-
+$id_usuario = $_SESSION['id'];
 
   //conexion a la base de datos mediante sqlite
 
@@ -65,18 +65,23 @@ else
 $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection
-
-$sql="SELECT ofertas.id, ofertas.articulo, ofertas.precio, ofertas.texto, ofertas.foto_id, ofertas.video_id, ofertas.fecha_inicio, ofertas.fecha_fin, ofertas.pases_pendientes, 
+if($nivel < "2"){
+$result = $bbdd->consulta("SELECT ofertas.id, ofertas.articulo, ofertas.precio, ofertas.texto, ofertas.foto_id, ofertas.video_id, ofertas.fecha_inicio, ofertas.fecha_fin, ofertas.pases_pendientes, 
 ofertas.momento_inicial, ofertas.momento_final, ofertas.retardo, ofertas.duracion, ofertas.canal, estilos.estilo as id_estilo_animacion
 FROM ofertas
 left join estilos on 
-ofertas.id_estilo_animacion = estilos.id";
-
-	$result = $bbdd->consulta($sql,"SELECT","OFERTAS","$nivel");
-	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
-	$json = json_encode($results_array);
-	$json = urldecode(stripslashes($json)); 
-	//$nRows=$conn->query("SELECT count(*) FROM ofertas WHERE $where")->fetchColumn();   /* specific search then how many match */
+ofertas.id_estilo_animacion = estilos.id WHERE id_usuario = $id_usuario","SELECT","OFERTAS",$nivel);
+}else{
+$result = $bbdd->consulta("SELECT ofertas.id, ofertas.articulo, ofertas.precio, ofertas.texto, ofertas.foto_id, ofertas.video_id, ofertas.fecha_inicio, ofertas.fecha_fin, ofertas.pases_pendientes, 
+ofertas.momento_inicial, ofertas.momento_final, ofertas.retardo, ofertas.duracion, ofertas.canal, estilos.estilo as id_estilo_animacion
+FROM ofertas
+left join estilos on 
+ofertas.id_estilo_animacion = estilos.id","SELECT","OFERTAS",$nivel);
+}
+$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
+$json = json_encode($results_array);
+$json = urldecode(stripslashes($json)); 
+//$nRows=$conn->query("SELECT count(*) FROM ofertas WHERE $where")->fetchColumn();   /* specific search then how many match */
 		
 
 header('Content-Type: application/json'); //tell the broswer JSON is coming

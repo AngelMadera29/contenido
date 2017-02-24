@@ -3,7 +3,7 @@ session_start();
 		//iclucion del objeto base de datos
 include ('../db/BBDD.php');
 
-$bbdd = new Base_de_datos('../db/bbdd.db');
+$bbdd = new Base_de_datos('../db/bbdd.db','../db/registros.sqlite');
    	
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 2 ){exit;}
 $nivel = $_SESSION['nivel'];

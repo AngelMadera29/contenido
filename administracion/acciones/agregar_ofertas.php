@@ -6,10 +6,10 @@
    
    	
    	$nivel = $_SESSION['nivel'];
-   	$usuario = $_SESSION['id'];
+   	$id_usuario = $_SESSION['id'];
 	$nivel_editar=1;
 	
-	
+
 if ($_SESSION['nivel'] == ''){exit;}
 	
 $op = $_POST['op']; 
@@ -18,7 +18,6 @@ $id = $_POST['id'];
 $articulo = $_POST['articulo'];
 $precio = $_POST['precio'];	
 $texto = $_POST['texto'];
-$fotografia = $_POST['fotografia'];
 $fecha_inicio = $_POST['fecha_inicio'];	
 $fecha_fin = $_POST['fecha_fin'];
 $pases_pendientes = $_POST['pases_pendientes'];
@@ -32,6 +31,7 @@ $video = $_POST['video'];
 
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
+
 
 
 $resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
@@ -53,7 +53,7 @@ $retardo1 = $res['retardo'];
 $duracion1 = $res['duracion'];	
 $canal1 = $res['canal'];	
 $id_estilo1 = $_POST['id_estilo_animacion'];
-	
+
 /*if($bbdd_tipo=="sqlite"){
 	$conexion2 = new PDO("sqlite:administracion/db/registros.sqlite");
 	$conexion2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -82,15 +82,17 @@ if ($op=="update"){
 		id_estilo_animacion = '".$id_estilo."'
 		WHERE id = '".$id_antiguo."'";
 		
+
+		
 		$bbdd->consulta($actulizar,"UPDATE","OFERTAS","");
-		$bbdd->consulta("UPDATE ofertas SET id_usuario = '".$usuario."' WHERE id = '".$id_antiguo."'","UPDATE","OFERTAS","$nivel");
+		$bbdd->consulta("UPDATE ofertas SET id_usuario = '".$id_usuario."' WHERE id = '".$id_antiguo."'","UPDATE","OFERTAS","$nivel");
 		
 		
 		if ($video_id1 != $video){
 			$bbdd->consulta("UPDATE ofertas SET video_id = '".$video."' WHERE id = '".$id_antiguo."' ","UPATE","OFERTAS","$nivel");
 		}
+		
 	
-
 		//comprobamos la extencion del archivo
 		$archivo = $_FILES["fotografia"]["type"]; 
 		$trozos = explode(".", $archivo); 
@@ -103,16 +105,17 @@ if ($op=="update"){
 			if($foto_id1 != ""){}
 			if ($_FILES["fotografia"]["tmp_name"]!="")
 			{
-		
 			//$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
 			move_uploaded_file($_FILES["fotografia"]["tmp_name"], "administracion/db/imagenes/fotografia_".$id.".jpg");	
 			$foto_id="fotografia_".$id.".jpg?".rand();
-													 }else{
-			$foto_id="sin_imagen.jpg";
-											 	 	 }
-	
 			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS","");
-		
+			}
+			if($foto_id1=="")										 
+			{										 
+			$foto_id="sin_imagen.jpg";
+			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS","");
+			}
+				
 		//fin de la opcion si el tipo de archivo es fotogrfia
 			
 			  }else{		
@@ -204,7 +207,15 @@ $insertar = 'INSERT INTO ofertas (`id`,`articulo`,`precio`,`texto`,`foto_id`,`vi
 
  $bbdd->consulta($insertar,"INSERT","OFERTAS","");
  $id = $bbdd->resultado_id();
- $bbdd->consulta("UPDATE ofertas SET id_usuario = '".$usuario."' WHERE id = '".$id."'","UPDATE","OFERTAS","$nivel");
+ 
+
+$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
+$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$video = $res['video_id'];	 
+$texto = $res['texto'];	
+ 
+ $bbdd->consulta("INSERT INTO videos (id,nombre,descripcion) VALUES ('".$id."','".$nombre."','".$texto."')"); 
+ $bbdd->consulta("UPDATE ofertas SET id_usuario = '".$id_usuario."' WHERE id = '".$id."'","UPDATE","OFERTAS","$nivel");
 
 			
 		echo '<script language="javascript">alert("Oferta agregada correctamente");</script>'; 	

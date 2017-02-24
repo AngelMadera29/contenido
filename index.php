@@ -1,9 +1,15 @@
 <?php
-    session_start();
-    include_once 'include/class.user.php';
+if (!isset($_SESSION)) {
+  session_start();
+}
+ 
+    include_once 'include/class.user.php';    
     $user = new User();
+    include_once "administracion/db/BBDD.php";
+    $auth = new Autorizador(); 
 
     $id = $_SESSION['id'];
+    $nivel = $_SESSION['nivel'];
    
 
     if (!$user->get_session()){
@@ -57,22 +63,23 @@
        <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="">Listado de contenido<span class="caret"></span></a>
         <ul class="dropdown-menu">
-	     <?php  
-echo "    <li><a href='?page=ofertas'>Lista de ofertas</a></li>";
-echo "	  <li><a href='?page=prueba_tablas'>Listas de Estilos</a></li>";
-echo "	  <li><a href='?page=videos'>Videos de fondo</a></li>";
-if($_SESSION['nivel'] >= 2){
-    echo "    <li><a href='?page=usr'>Lista de Usuarios</a></li>";
-}else{
-	echo"<li></li>";
-}
-if($_SESSION['nivel'] >= 2){
-	echo " 	  <li><a href='?page=logs'>Lista de Logs</a></li>"; 
-	echo "	  <li><a href='?page=respaldo'>Respaldos</a></li>";
-}else{
-	echo"<li></li>";
-}
-		?>
+	        <li><a href="?page=ofertas">Lista de ofertas</a></li>
+	        <li><a href="?page=prueba_tablas">Listas de Estilos</a></li>
+	        <li><a href="?page=videos">Videos de fondo</a></li>
+<?php  
+$contenido = "
+<li><a href='?page=usr'>Lista de usuarios</a></li>
+<li><a href='?page=respaldo'>Respaldos</a></li>";
+$auth->autorizar("index","listas",$contenido,$nivel);
+?>
+
+<?php
+$contenido = "
+<li><a href='?page=logs'>Lista de Logs</a></li>
+<li><a href='?page=permisos'>Lista de Permisos</a></li>";
+$auth->autorizar("logs","logs",$contenido,$nivel);
+	?>
+
 		  	  
         </ul>
      </li>         
@@ -176,6 +183,19 @@ if($_SESSION['nivel'] >= 2){
 
 			case 'prueba_tablas':
 			include "administracion/vistas/tablas.php";
+			break;	
+			
+			
+			
+			case 'permisos':
+			include "administracion/vistas/permisos.php";
+			break;	
+			//seccion de control de registros de noticias
+			case 'permisos_form':
+			include "administracion/acciones/permisos_form.php";
+			break;	
+			case 'permisos_add':
+			include "administracion/acciones/agregar_permisos.php";
 			break;		
 			
 					

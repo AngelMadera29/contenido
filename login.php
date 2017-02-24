@@ -5,7 +5,7 @@
 	
 	
 	if($_SESSION['login'] == true){
-		header("Location: index.php");
+		header("Location:index.php");
 	}
 
 	if (isset($_REQUEST['submit'])) { 
@@ -27,7 +27,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">  
+<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/js/jquery.bootgrid.css" rel="stylesheet">
+<link href="assets/js/bootstrap.min.js" rel="stylesheet">
+<link rel="stylesheet" href="assets/js/date/jquery-ui.css">  
+<script src="assets/js/date/jquery-1.10.2.js"></script>
+<script src="assets/js/date/jquery-ui.js"></script>
+<link rel="stylesheet" href="assets/js/date/style.css">
 <link rel="stylesheet" type="text/css" href="assets/css/login.css" />
 <script src="assets/js/login.js">	
 </script>
@@ -41,7 +49,7 @@
 <span id="reauth-email" class="reauth-email"></span>
 
 <input type="text" id="inputEmail" name="name" class="form-control" placeholder="Nombre usuario" required>
-<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Contraseña" required>
+<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Contrase&#241;a" required>
 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" name="submit" value="Login" onclick="return(submitlogin());">Acceder
 </button>
             </form><!-- /form -->

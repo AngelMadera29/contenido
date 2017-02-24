@@ -1,8 +1,7 @@
 <?php
 session_start();
 include ('../db/BBDD.php');
-
-$bbdd = new Base_de_datos('../db/bbdd.db');
+$bbdd = new Base_de_datos('../db/bbdd.db','../db/registros.sqlite');
 
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];

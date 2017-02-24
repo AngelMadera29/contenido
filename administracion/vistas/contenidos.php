@@ -5,7 +5,7 @@ setlocale(LC_ALL, $lenguaje);
 setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 
 include ('../db/BBDD.php');
-$bbdd = new Base_de_datos('../db/bbdd.db');
+$bbdd = new Base_de_datos('../db/bbdd.db','../db/registros.sqlite');
 
 
 $returnVars = array();

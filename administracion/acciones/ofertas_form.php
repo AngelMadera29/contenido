@@ -2,7 +2,7 @@
 session_start();
 include_once "comprobar_previsualizacion.php";
 include_once "administracion/db/BBDD.php";
-$bbdd = new Base_de_datos('administracion/db/bbdd.db');
+$bbdd = new Base_de_datos('administracion/db/bbdd.db','administracion/db/registros.sqlite');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 
@@ -19,6 +19,8 @@ if (isset($_GET))
 	{
 
 	$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
+	//$logs = $bbdd->consulta("INSERT ");
+	
 	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 $id = $res['id'];	
@@ -104,14 +106,19 @@ echo "</div>";
 }
 	</script>
 <br>
-<div class="form-group">
-      <label for="inputEmail" class="col-lg-2 control-label" >ID</label>
-      <div class="col-xs-4">
-        <input type="text" class="form-control" name="id" value="<?php echo $id;?>" id="id" placeholder="Id" maxlength="30" >
-        <input type="text"  hidden="hidden" name="id_antiguo" value="<?php echo $id;?>" id="id_antiguo" maxlength="30" >
+<?php
+
+$contenido =  "<div class='form-group'>
+      <label for='inputEmail' class='col-lg-2 control-label' >ID</label>
+      <div class='col-xs-4'>
+        <input type='text' class='form-control' name='id' value='$id' id='id' placeholder='Id' maxlength='30' >
       </div>
-    </div>
+    </div>";
+$auth->autorizar("ofertas","id",$contenido,$nivel);
+
+    ?>
         <div class="form-group">
+	        <input type='text'  hidden='hidden' name='id_antiguo' value='<?php echo $id;?>' id='id_antiguo' maxlength='30' >
       <label for="inputEmail" class="col-lg-2 control-label" >Nombre articulo</label>
       <div class="col-xs-4">
         <input type="text" class="form-control" name="articulo" value="<?php echo $articulo;?>" id="articulo" placeholder="Articulo" maxlength="30" required>
@@ -127,7 +134,7 @@ echo "</div>";
     <div class="form-group">
       <label for="inputEmail" class="col-lg-2 control-label">Texto</label>
       <div class="col-sm-4">
-   <textarea class="form-control" rows="3" id="texto" name="Texto" placeholder="Descripcion" equired="required"
+   <textarea class="form-control" rows="3" id="texto" name="texto" placeholder="Descripcion" equired="required"
   autocomplete="on" ><?php echo $texto;?></textarea>
       </div>
     </div>
@@ -201,16 +208,16 @@ foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
  	  echo " <div class='form-group'>
 	  <label for='inputEmail' class='col-lg-2 control-label'>Video</label>
 	&nbsp;&nbsp;&nbsp;";
-$resultado = $bbdd->consulta("SELECT video_id FROM ofertas","SELECT","ESTILOS",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT nombre FROM videos","SELECT","VIDEOS",""); //replace exec with query
 echo '<select name="video" id="video"  onchange="myFunction()" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
-	        echo '<option value="'.$row['video_id'].'" ';
-	        if ($row['video_id']==$video)
+	        echo '<option value="'.$row['nombre'].'" ';
+	        if ($row['nombre']==$video_id)
             {
 	            echo " selected='selected'";
             }
             echo ' placeholder="Estilos">';
-            echo $row['video_id'];
+            echo $row['nombre'];
                         echo '</option>';  
         } 
      echo '   </select></p> ';    

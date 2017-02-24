@@ -2,6 +2,9 @@
 session_start();
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
+
+include_once "administracion/db/BBDD.php";
+$auth = new Autorizador(); 
 	?>
 <!DOCTYPE html>
 <html>
@@ -27,18 +30,11 @@ $nivel = $_SESSION['nivel'];
 	 <h3>Datos de Usuario</h3>
 	 
 	 	 	 <?php
- if ($nivel >= 0){	 
-echo "<a href='?page=usuario_form' class='btn btn-primary'>Añadir nuevo usuario</a> "; 
-	 }else{
-echo "";
-	 }
-	 ?>
-	  <?php
-	 if ($nivel >= 0){	 
-echo "<button id='show' class='btn btn-danger' disabled>Vaciar usuario</button>";
-	 }else{
-echo "";
-	 }
+
+$contenido = "<a href='?page=usuario_form' class='btn btn-primary'>Añadir nuevo usuario</a>  
+<button id='show' class='btn btn-danger' disabled>Vaciar usuario</button>";
+$auth->autorizar("usuarios","botones",$contenido,$nivel);
+
 	 ?>
 
 	 <a href="#" onClick ="$('#table').tableExport({type:'pdf',escape:'false'});" class="btn btn-primary">PDF</a>

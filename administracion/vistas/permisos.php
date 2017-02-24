@@ -37,9 +37,9 @@ echo "<h3> Noticias </h3>";
 
 
 		  
-echo  "<a href='?page=ofertas_form' class='btn btn-primary'>Añadir Ofertas</a> ";
+echo  "<a href='?page=permisos_form' class='btn btn-primary'>Añadir Permisos</a> ";
 
-$contenido = "<button id='show' class='btn btn-danger' disabled>Vaciar Ofertas</button>";
+$contenido = "<button id='show' class='btn btn-danger' disabled>Vaciar Permisos</button>";
 $auth->autorizar("ofertas","botones",$contenido,$nivel);
 	 echo "&nbsp";
 
@@ -68,30 +68,19 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		     data-maintain-selected="true"
 			 data-toolbar="#show"
 			 data-flat="true"
-             data-url="administracion/vistas/oferta.php">
+             data-url="administracion/vistas/permiso.php">
          <thead>
 
             <tr>
 	            <th data-field="state" data-checkbox="true"></th>
                 <th data-field="id">id</th>
                 
-                <th data-formatter="dataFormater" data-width="90">Accion</th>
+                <th data-formatter="dataFormater" data-width="90">Acción</th>
                 
-                <th data-field="foto_id"  data-formatter="imageFormatter">Foto</th>
-                
-				<th data-field="articulo" data-filter-control="input">Articulo</th> 
-				<th data-field="precio" data-filter-control="input">Precio</th> 
-				<th data-field="texto" data-filter-control="input">Texto</th> 
-				<th data-field="video_id" data-formatter="imageFormatter1">Video</th>
-				<th data-field="fecha_inicio" >Fecha I.</th>
-				<th data-field="fecha_fin" >Fecha F.</th>
-				<th data-field="pases_pendientes" data-filter-control="select" >Pases P.</th>	
-				<th data-field="momento_inicial" >Momento I.</th>
-				<th data-field="momento_final" >Momento F.</th>
-				<th data-field="retardo" data-filter-control="select">Retardo</th>
-				<th data-field="duracion" >Duracion</th>
-				<th data-field="canal" >Canal</th>
-				<th data-field="id_estilo_animacion" >Estilo</th>
+				<th data-field="accion" data-filter-control="input">Acción</th> 
+				<th data-field="tabla" data-filter-control="input">Tabla</th> 
+				<th data-field="nivel" data-filter-control="input">Nivel</th> 
+
             </tr>
             </thead>
         </table> 
@@ -114,12 +103,12 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 						
       borrar=confirm("Eliminar personal seleccionado : " + ids);
        if(borrar)
-       window.location = "index.php?page=vaciado-ofertas&datos=" + ids;
+       window.location = "index.php?page=vaciado-permisos&datos=" + ids;
        //enviar parametro post get 
             else
       alert('No se ha podido eliminar el personal..');
       
- $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/oferta.php'});
+ $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/permiso.php'});
         });
     });
  });
@@ -130,23 +119,13 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
     var $table = $('#table'),
         $button = $('#show');
         $edit = $('#edit');
-        
-	function imageFormatter(value, row) {
-      return "<img width=50 src='administracion/db/imagenes/" + value + "'>";
-    }
-    
-	function imageFormatter1(value, row) {
-		var file = value.replace(/\.[^\.]+$/, '.gif');
-      return "<img width=100 src='administracion/db/previsualizaciones/" + file + "'>";
-    }
- 
     
     function dataFormater(value, row, index) {
 
         var id = row.id;
 
         var strHTML = "<div>";
-         strHTML += "<a href='index.php?page=ofertas_form&datos=" + id + "' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Editar</a>";
+         strHTML += "<a href='index.php?page=permisos_form&datos=" + id + "' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Editar</a>";
         strHTML += "</div>";
 
         var valReturn = strHTML;
@@ -165,7 +144,7 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
                 return row.id;
             });
     
- $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/oferta.php'});
+ $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/permiso.php'});
         });
     });
  });
