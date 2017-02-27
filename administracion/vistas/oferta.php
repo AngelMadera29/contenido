@@ -3,7 +3,8 @@ session_start();
 include ('../db/BBDD.php');
 
 $bbdd = new Base_de_datos('../db/bbdd.db','../db/registros.sqlite');
-
+$auth = new Autorizador(); 
+   
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 $id_usuario = $_SESSION['id'];
@@ -65,19 +66,16 @@ else
 $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection
-if($nivel < "2"){
-$result = $bbdd->consulta("SELECT ofertas.id, ofertas.articulo, ofertas.precio, ofertas.texto, ofertas.foto_id, ofertas.video_id, ofertas.fecha_inicio, ofertas.fecha_fin, ofertas.pases_pendientes, 
+$contenido = "SELECT ofertas.id, ofertas.articulo, ofertas.precio, ofertas.texto, ofertas.foto_id, ofertas.video_id, ofertas.fecha_inicio, ofertas.fecha_fin, ofertas.pases_pendientes, 
 ofertas.momento_inicial, ofertas.momento_final, ofertas.retardo, ofertas.duracion, ofertas.canal, estilos.estilo as id_estilo_animacion
 FROM ofertas
 left join estilos on 
-ofertas.id_estilo_animacion = estilos.id WHERE id_usuario = $id_usuario","SELECT","OFERTAS",$nivel);
-}else{
-$result = $bbdd->consulta("SELECT ofertas.id, ofertas.articulo, ofertas.precio, ofertas.texto, ofertas.foto_id, ofertas.video_id, ofertas.fecha_inicio, ofertas.fecha_fin, ofertas.pases_pendientes, 
-ofertas.momento_inicial, ofertas.momento_final, ofertas.retardo, ofertas.duracion, ofertas.canal, estilos.estilo as id_estilo_animacion
-FROM ofertas
-left join estilos on 
-ofertas.id_estilo_animacion = estilos.id","SELECT","OFERTAS",$nivel);
-}
+ofertas.id_estilo_animacion = estilos.id";
+
+$consulta = $auth->autorizar("ofertas","consulta",$contenido,$nivel);
+
+$result = $bbdd->consulta($consulta,"SELECT","OFERTAS",$nivel);
+
 $results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
 $json = json_encode($results_array);
 $json = urldecode(stripslashes($json)); 

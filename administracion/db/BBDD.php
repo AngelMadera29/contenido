@@ -1,8 +1,19 @@
 <?php
 class Autorizador{
 	
-
 public function autorizar($seccion,$objeto,$contenido,$session_id){
+	//SECCION = apartado o ubicacion en donde se mostrara el contenido.
+	//OBJETO = ubicacion en donde se encuentra el contenido a mostrar.
+	//CONTENIDO = el dato o el valor que se desea mostrar si cumple con los parametros. 
+	//SESSION_ID = identificador unico para cada usuario.
+	//seccion encargada de mostrar la consulta completa en caso de ser un nivel superior a 1 o 2
+	if ($seccion == "ofertas" && $objeto == "consulta" && $session_id >= 2)
+		return $contenido;
+	//esta seccion se encarga de regresar la consulta con un comparador en caso de ser un usuario de nivel inferior a 2	
+	if ($seccion == "ofertas" && $objeto == "consulta" && $session_id < 2)
+	 	$usuario = $_SESSION['id'];
+		$consulta = "WHERE id_usuario = $usuario";
+		return $contenido." ".$consulta;				
 	//esta seccion muestra unicamente las opciones de respaldo y lista de ususrios
 	if($seccion == "index" && $objeto == "listas" && $session_id >= 2)
 		echo $contenido;	
@@ -20,7 +31,7 @@ public function autorizar($seccion,$objeto,$contenido,$session_id){
 		echo $contenido;
 	//esta seccion se encarga de mostrar el boton de usuarios agregar y eliminar en caso de ser usuario mayor nivel 2			
 	if($seccion == "usuarios" && $objeto == "botones" && $session_id >= 2)
-		echo $contenido;	
+		echo $contenido;				
 	}
 }	
 	
@@ -186,3 +197,4 @@ class Base_de_datos {
               
    
   ?>
+  

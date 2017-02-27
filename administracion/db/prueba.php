@@ -1,31 +1,20 @@
+  <?php
+session_start();
+include ('../db/BBDD.php');
 
+$bbdd = new Base_de_datos('../db/bbdd.db','../db/registros.sqlite');
+$auth = new Autorizador();    
+if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
+$nivel = $_SESSION['nivel'];
+$id_usuario = $_SESSION['id'];
 
-<select id="test" name="form_select" onchange="showDiv(this)">
-   <option value="0">No</option>
-   <option value="1">Yes</option>
-</select>
-<div id="hidden_div" style="display:none;">Hello hidden content</div>
+$contenido = "SELECT * FROM ofertas";
+$consulta = $auth->autorizar("ofertas","consulta",$contenido,$nivel);
 
-<script type="text/javascript">
-function showDiv(select){
-   if(select.value==1){
-    document.getElementById('hidden_div').style.display = "block";
-   } else{
-    document.getElementById('hidden_div').style.display = "none";
-   }
-} 
-</script>
+$result = $bbdd->consulta($consulta,"SELECT","OFERTAS",$nivel);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
+$json = json_encode($results_array);
+$json = urldecode(stripslashes($json)); 
+ 	echo $json;
+ 	?>
