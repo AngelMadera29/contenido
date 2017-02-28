@@ -154,8 +154,8 @@ $auth->autorizar("logs","logs",$contenido,$nivel);
 			case 'animaciones_form':
 			include "administracion/acciones/animaciones_form.php";
 			break;	
-			case 'ofertas_add':
-			include "administracion/acciones/agregar_ofertas.php";
+			case 'animaciones_add':
+			include "administracion/acciones/agregar_animaciones.php";
 			break;				
 			
 			
@@ -166,8 +166,8 @@ $auth->autorizar("logs","logs",$contenido,$nivel);
 			case 'bloques_form':
 			include "administracion/acciones/bloques_form.php";
 			break;	
-			case 'ofertas_add':
-			include "administracion/acciones/agregar_ofertas.php";
+			case 'bloques_add':
+			include "administracion/acciones/agregar_bloques.php";
 			break;	
 						
 			case 'estilos':

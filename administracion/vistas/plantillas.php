@@ -55,7 +55,7 @@ $limit=" LIMIT $limit_l,$limit_h  ";
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection
 $sql="SELECT id, estilo,descripcion FROM estilos";
 
-	$result = $bbdd->consulta($sql,"SELECT","ESTILOS","$nivel");
+	$result = $bbdd->consulta($sql,"SELECT","ESTILOS",session_id());
 	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
 	$json = json_encode($results_array);
 	$json = urldecode(stripslashes($json)); 

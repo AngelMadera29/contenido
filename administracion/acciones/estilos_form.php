@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include_once "administracion/db/BBDD.php";
-$bbdd = new Base_de_datos('administracion/db/bbdd.db');
+$bbdd = new Base_de_datos('administracion/db/bbdd.db','administracion/db/registros.sqlite');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 
@@ -17,7 +17,7 @@ if (isset($_GET))
 	if ($id != "")
 	{
 
-$resultado = $bbdd->consulta("SELECT * from estilos where id = '".$id."'","SELECT","ESTILOS","");
+$resultado = $bbdd->consulta("SELECT * from estilos where id = '".$id."'","SELECT","ESTILOS",session_id());
 $res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 $id_estilo = $res['id'];	

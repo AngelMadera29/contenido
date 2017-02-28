@@ -1,10 +1,14 @@
 <?php
 session_start();
-include ('../db/BBDD.php');
-$bbdd = new Base_de_datos('../db/bbdd.db','../db/registros.sqlite');
-if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 3 ){exit;}
-$nivel = $_SESSION['nivel'];
 
+include ('../db/LOGS.php');
+
+$log = new registros('../db/registros.sqlite');   
+
+$nivel = $_SESSION['nivel'];
+$id_usuario = $_SESSION['id'];
+
+  //conexion a la base de datos mediante sqlite
 $where =" 1=1 ";
 $order_by="id";
 $rows=25;
@@ -45,8 +49,8 @@ if (isset($_REQUEST['searchPhrase']) )
   	  usuario LIKE '".$search."%' OR 
   	  fecha LIKE '".$search."%' OR
   	  accion LIKE '".$search."%' OR
-  	  descripcion LIKE '".$search."%') "; 
-	}
+  	  tabla LIKE '".$search."%'OR
+  	  descripcion LIKE '".$search."%') "; 	}
 
 //Handles determines where in the paging count this result set falls in
 if (isset($_REQUEST['rowCount']) )  
@@ -66,13 +70,15 @@ else
 $limit=" LIMIT $limit_l,$limit_h  ";
    
 //NOTE: No security here please beef this up using a prepared statement - as is this is prone to SQL injection.
-$sql="SELECT id, usuario, fecha, accion, descripcion FROM logs WHERE $fechas";
+$contenido="SELECT id, usuario, fecha, accion, descripcion FROM logs WHERE $fechas";
 
-	$result = $bbdd->consulta($sql,"select","ofertas","$nivel");
-	$results_array = $bbdd->resultado_completo(PDO::FETCH_ASSOC);
-	$json = json_encode($results_array, JSON_UNESCAPED_UNICODE);
-	$json = urldecode(stripslashes($json)); 
-	//$nRows=$conn->query("SELECT count(*) FROM logs WHERE $where AND $fechas")->fetchColumn();   /* specific search then how many match */
+$result = $log->consulta($contenido,"SELECT","OFERTAS",$nivel);
+
+
+$results_array = $log->resultado_completo(PDO::FETCH_ASSOC);
+$json = json_encode($results_array);
+$json = urldecode(stripslashes($json)); 
+
 
 header('Content-Type: application/json'); //tell the broswer JSON is coming
 

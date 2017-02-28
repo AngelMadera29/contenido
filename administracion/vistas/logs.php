@@ -109,7 +109,7 @@ $nivel = $_SESSION['nivel'];
             else
       alert('No se han podido eliminar los registros..');
       
- $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/logs.php'});
+ $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/log.php'});
         });
     });
  });
@@ -137,7 +137,7 @@ var ff = document.getElementById("ff").value;
 
 alert(ff);
 
-var direccion="http://localhost:8888/administracion/vistas/registros.php?ff=" + ff + "&fi=" + fi;
+var direccion="http://localhost:8888/Contenido/administracion/vistas/log.php?ff=" + ff + "&fi=" + fi;
 
 $.ajax({
         type: "POST",
@@ -147,7 +147,7 @@ $.ajax({
         .done( function( msg ) {
 	        //alert( "Data Saved: " + msg );
 	      //  $table.bootstrapTable('refresh','administracion/vistas/movimientos.php' );
-	     $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/registros.php'});
+	     $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/log.php'});
 	        });
 
 });
@@ -164,7 +164,7 @@ var ff = document.getElementById("ff").value;
 
 alert(fi);
 
-var direccion="http://localhost:8888/administracion/vistas/registros.php?ff=" + ff + "&fi=" + fi;
+var direccion="http://localhost:8888/Contenido/administracion/vistas/log.php?ff=" + ff + "&fi=" + fi;
 
 $.ajax({
         type: "POST",
@@ -174,7 +174,7 @@ $.ajax({
         .done( function( msg ) {
 	        //alert( "Data Saved: " + msg );
 	      //  $table.bootstrapTable('refresh','administracion/vistas/movimientos.php' );
-	     $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/registros.php'});
+	     $('#table').bootstrapTable('refresh', {url: 'administracion/vistas/log.php'});
 	        });
 
 });

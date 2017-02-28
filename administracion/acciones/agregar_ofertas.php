@@ -142,45 +142,7 @@ if ($op=="update"){
 		
 					}//fin de else si no es video
 		
-		/*
-$logs = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)
-VALUES
-(NOT NULL,'".$usuario."','".$now."','actualizacion',
-'actualizados los valores de personal ID -> $id
- Nombres DE $nombre1 A-> $nombre
- Apellido1 DE $apellido1_1 A-> $apellido1
- Apellido2 DE $apellido2_2 A-> $apellido2 
- Nacimiento DE $nacimiento1 A-> $nacimiento 
- Telefono DE $fijo_1 A-> $telefono_fijo
- Celular DE $celular_1 A-> $celular 
- ID Empresa DE $id_empresa_1 A-> $id_empresa 
- NC Empresa DE $nc_empresa_1 A-> $nombre_C
- Codigo OP DE $codigo_OP_1 A-> $codigoop
- Empresa DE $nc_empresa_1 A-> $NombreL
- RFID DE $rfid_1 A->  $rfid 
- Visitante DE $visitante_1 A-> $visitante
- Ubicacion DE $ubicacion_1 A-> $ubicacion
- Tipo de sangre DE $sangre_1 A-> $sangre
- IMSS DE $IMSS_1 A-> $IMSS
- Montacargas DC3 DE $monta_1 A-> $monta
- Gruas DC3 DE $gruas_1 A-> $gruas
- Cargo DE $cargo_1 A-> $cargo 
- Emergencias DE $llamar_1 A-> $llamar
- Fotografia DE $fotografia_1 A-> $foto_id')";
-
-if ($bbdd_tipo=="sqlite"){
-	$conexion2 = new PDO("sqlite:administracion/db/registros.sqlite");
-	$conexion2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$logs_personal = $conexion2->query($logs); //replace exec with query
-}	
-if($bbdd_tipo=="mysql"){
-	$conexion2 = new mysqli ("localhost","root","root","registros");
-	$logs_personal1 = mysqli_query($conexion2,$logs);	 
-}//fin del try para agregar logs dentro de la base de datos
-    
- 
- */
-
+	
 	}//fin de if post no esta vacio
 echo '<script language="javascript">alert("Oferta actualizada correctamente");</script>'; 
 include "administracion/vistas/ofertas.php";

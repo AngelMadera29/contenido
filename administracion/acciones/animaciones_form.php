@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include_once "administracion/db/BBDD.php";
-$bbdd = new Base_de_datos('administracion/db/bbdd.db');
+$bbdd = new Base_de_datos('administracion/db/bbdd.db','administracion/db/registros.sqlite');
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 
@@ -63,7 +63,7 @@ else
 	</head>
 	<body>
 		
-<form class="form-horizontal" role="form" action="?page=estilos_add" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" role="form" action="?page=animaciones_add" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="op" value="<?php echo $accion;?>">
 				<input type="hidden" name="id" value="<?php echo $id;?>">  <fieldset>
     <legend>Agregar Animación</legend>

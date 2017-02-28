@@ -57,11 +57,6 @@ foreach ($res as $vista) {
 </nav>
 </div>
 </div>
-<?php
-}
-
-
-?>
 
  </body>
  </html

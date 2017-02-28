@@ -52,7 +52,7 @@ $nivel = $_SESSION['nivel'];
                     <tr>
 	            <th data-field="state" data-checkbox="true"></th>
                 <th data-field="id" >Id</th>
-                <th data-formatter="dataFormater" data-width="40">Accion</th>
+                <th data-formatter="dataFormater1" data-width="40">Accion</th>
                 <th data-field="animacion"  >Animacion</th>
 				<th data-field="descripcion">Descripcion</th> 
                     </tr>
@@ -91,7 +91,7 @@ $nivel = $_SESSION['nivel'];
         $edit = $('#edit');
   
   
-      function dataFormater(value, row, index) {
+      function dataFormater1(value, row, index) {
 
         var id = row.id;
 
@@ -146,7 +146,7 @@ $nivel = $_SESSION['nivel'];
                     <tr>
 	            <th data-field="state" data-checkbox="true"></th>
                 <th data-field="id" >Id</th>
-                <th data-formatter="dataFormater" data-width="40">Accion</th>
+                <th data-formatter="dataFormater2" data-width="40">Accion</th>
                 <th data-field="bloque"  >Bloque</th>
 				<th data-field="descripcion">Descripción</th> 
                     </tr>
@@ -185,7 +185,7 @@ $nivel = $_SESSION['nivel'];
         $edit = $('#edit');
   
   
-      function dataFormater(value, row, index) {
+      function dataFormater2(value, row, index) {
 
         var id = row.id;
 
