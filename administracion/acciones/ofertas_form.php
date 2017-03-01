@@ -180,7 +180,7 @@ if($id != ""){
 	  <label for='inputEmail' class='col-lg-2 control-label'>Estilo</label>
 	&nbsp;&nbsp;&nbsp;";
  	 
-$resultado = $bbdd->consulta("SELECT * FROM estilos ORDER by estilo ASC","SELECT","ESTILOS",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM estilos ORDER by estilo ASC","SELECT","ESTILOS",session_id()); //replace exec with query
 echo '<select name="id_estilo" id="id_estilo" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -208,7 +208,7 @@ foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
  	  echo " <div class='form-group'>
 	  <label for='inputEmail' class='col-lg-2 control-label'>Video</label>
 	&nbsp;&nbsp;&nbsp;";
-$resultado = $bbdd->consulta("SELECT nombre FROM videos","SELECT","VIDEOS",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT nombre FROM videos","SELECT","VIDEOS",session_id()); //replace exec with query
 echo '<select name="video" id="video"  onchange="myFunction()" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['nombre'].'" ';

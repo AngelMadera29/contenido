@@ -34,7 +34,7 @@ $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);
 
 
 
-$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
+$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS",session_id());
 $res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 
@@ -53,14 +53,6 @@ $retardo1 = $res['retardo'];
 $duracion1 = $res['duracion'];	
 $canal1 = $res['canal'];	
 $id_estilo1 = $_POST['id_estilo_animacion'];
-
-/*if($bbdd_tipo=="sqlite"){
-	$conexion2 = new PDO("sqlite:administracion/db/registros.sqlite");
-	$conexion2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-if($bbdd_tipo=="mysql"){
-	$conexion2 = new mysqli ("localhost","root","root","registros");
-}*/
 
 if ($op=="update"){
 	if ($_POST["id"]!=''){
@@ -108,12 +100,12 @@ if ($op=="update"){
 			//$upload_img = cwUpload('fotografia',"administracion/db/imagenes/fotografia_".$id.".jpg",'',TRUE,"administracion/db/imagenes/fotografia_".$id.".jpg",'','');
 			move_uploaded_file($_FILES["fotografia"]["tmp_name"], "administracion/db/imagenes/fotografia_".$id.".jpg");	
 			$foto_id="fotografia_".$id.".jpg?".rand();
-			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS","");
+			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS",session_id());
 			}
 			if($foto_id1=="")										 
 			{										 
 			$foto_id="sin_imagen.jpg";
-			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS","");
+			$bbdd->consulta("UPDATE ofertas SET foto_id = '".$foto_id."' WHERE id = '".$id."'","UPDATE","OFERTAS",session_id());
 			}
 				
 		//fin de la opcion si el tipo de archivo es fotogrfia
@@ -127,9 +119,9 @@ if ($op=="update"){
 										}else{
 			$video_id="sin_imagen.jpg";
 											 }
-			$bbdd->consulta("UPDATE ofertas SET video_id = '".$video_id."' WHERE id = '".$id."'","UPDATE","OFERTAS","");
+			$bbdd->consulta("UPDATE ofertas SET video_id = '".$video_id."' WHERE id = '".$id."'","UPDATE","OFERTAS",session_id());
 		
-		$resultado1 = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
+		$resultado1 = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS",session_id());
 		$res1 = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 		$video_id1 = $res1['video_id'];
 		
@@ -167,11 +159,11 @@ $insertar = 'INSERT INTO ofertas (`id`,`articulo`,`precio`,`texto`,`foto_id`,`vi
 '".$duracion."',
 '".$canal."')";
 
- $bbdd->consulta($insertar,"INSERT","OFERTAS","");
+ $bbdd->consulta($insertar,"INSERT","OFERTAS",session_id());
  $id = $bbdd->resultado_id();
  
 
-$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
+$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS",session_id());
 $res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 $video = $res['video_id'];	 
 $texto = $res['texto'];	

@@ -17,7 +17,7 @@ if (isset($_GET))
 	if ($id != "")
 	{
 
-	$resultado = $bbdd->consulta("SELECT * from animaciones where id = '".$id."'","SELECT","ANIMACIONES","");
+	$resultado = $bbdd->consulta("SELECT * from animaciones where id = '".$id."'","SELECT","ANIMACIONES",session_id());
 	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 $id = $res['id'];	

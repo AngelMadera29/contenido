@@ -33,9 +33,9 @@ $bbdd->consulta($update,"UPDATE","VIDEOS","");
 										}else{
 			$video_id="sin_imagen.jpg";
 											 }
-			$bbdd->consulta("UPDATE video SET nombre = '".$video_id."' WHERE id = '".$id."'","UPDATE","VIDEOS","");
+			$bbdd->consulta("UPDATE video SET nombre = '".$video_id."' WHERE id = '".$id."'","UPDATE","VIDEOS",session_id());
 		
-		$resultado1 = $bbdd->consulta("SELECT * from videos where id = '".$id."'","SELECT","OFERTAS","");
+		$resultado1 = $bbdd->consulta("SELECT * from videos where id = '".$id."'","SELECT","OFERTAS",session_id());
 		$res1 = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 		$video_id1 = $res1['nombre'];
 		
@@ -68,7 +68,7 @@ echo '<script language="javascript">alert("Video actualizado correctamente");</s
 if ($op=="insert"){
 	
 $insertar = "INSERT INTO videos (`id`,`nombre`,`descripcion`) VALUES (NOT NULL,'".$nombre."','".$descripcion."')";
-$bbdd->consulta($insertar,"UPDATE","VIDEOS","");
+$bbdd->consulta($insertar,"UPDATE","VIDEOS",session_id());
 $id = $bbdd->resultado_id();
 	
 	
@@ -79,9 +79,9 @@ $id = $bbdd->resultado_id();
 										}else{
 			$video_id="sin_imagen.jpg";
 											 }
-			$bbdd->consulta("UPDATE video SET nombre = '".$video_id."' WHERE id = '".$id."'","UPDATE","VIDEOS","");
+			$bbdd->consulta("UPDATE video SET nombre = '".$video_id."' WHERE id = '".$id."'","UPDATE","VIDEOS",session_id());
 		
-		$resultado1 = $bbdd->consulta("SELECT * from videos where id = '".$id."'","SELECT","OFERTAS","");
+		$resultado1 = $bbdd->consulta("SELECT * from videos where id = '".$id."'","SELECT","OFERTAS",session_id());
 		$res1 = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 		$video_id1 = $res1['nombre'];
 		
@@ -93,12 +93,6 @@ $id = $bbdd->resultado_id();
 		}
 		
 					}//fin de else si no es video
-
-	/*
-	//resultado del ultido id registrado
-	$id = $bbdd->resultado_id();
-	$logs = "INSERT INTO logs (`id`,`usuario`,`fecha`,`accion`,`descripcion`)VALUES(NULL,'".$usuario."','".$now."','agregado','insertado nuevo usuario ID = $id')";
-	*/
     echo '<script language="javascript">alert("Video insertado correctamente");</script>'; 
 } //fin del if uodate
 

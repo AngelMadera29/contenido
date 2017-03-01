@@ -10,7 +10,7 @@ if (isset($_GET))
 	{
 
 
-	$resultado = $bbdd->consulta("SELECT * from usuarios where id = '".$id."'","SELECT","USUARIOS","");
+	$resultado = $bbdd->consulta("SELECT * from usuarios where id = '".$id."'","SELECT","USUARIOS",session_id());
 	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 
 $nombre = $res['nombre'];

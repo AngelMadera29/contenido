@@ -27,19 +27,8 @@ if($op=="actualizar"){
 	if($_POST['id']!=''){
 
 $update = "UPDATE usuarios SET nombre = '".$nombre."', sha_pass = '".$sha1."', nivel = '".$nivel."' WHERE id = '".$id."'";
-		$bbdd->consulta($update,"UPDATE","USUARIOS","");
-/*
-$log = "INSERT INTO logs(`id`,`usuario`,`fecha`,`accion`,`descripcion`)
-VALUES
-(NOT NULL,'".$usuario."','".$now."','actualizacion',
-'actualizados los valores usuario ID -> $id 
-nombre DE $nombre_1 A-> $nombre 
-contraseña DE $sha_pass_1 A-> $contrasena 
-nivel DE $nivel_1 A-> $nivel')";
+		$bbdd->consulta($update,"UPDATE","USUARIOS",session_id());
 
-	$stmt2=$db3->prepare($log);
-	$stmt2->execute();
- */
 	}//fin de if post no esta vacio 
 echo '<script language="javascript">alert("Usuario actualizado correctamente");</script>'; 
 }//fin de si post es actualizar
@@ -47,7 +36,7 @@ echo '<script language="javascript">alert("Usuario actualizado correctamente");<
 if ($op=="insert"){
 	
 $insertar = "INSERT INTO usuarios (`id`,`nombre`,`sha_pass`,`nivel`,`sessionkey`) VALUES (NOT NULL,'".$nombre."','".$sha1."','".$nivel."','')";
-	$bbdd->consulta($insertar,"UPDATE","USUARIOS","");
+	$bbdd->consulta($insertar,"UPDATE","USUARIOS",session_id());
 	/*
 	//resultado del ultido id registrado
 	$id = $bbdd->resultado_id();

@@ -35,34 +35,6 @@ $descripcion = $_POST['descripcion'];
 $usuario = $_SESSION['nombre'];
 $now = gmdate('d-m-y H:i:s', time() - 3600 * 5);		
 
-/*
-$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS","");
-$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
-
-
-$id1 = $res['id'];	
-$articulo1 = $res['articulo'];
-$precio1 = $res['precio'];	
-$texto1 = $res['texto'];
-$foto_id1=$res['foto_id'];	
-$video_id1 = $res['video_id'];
-$fecha_inicio1 = $res['fecha_inicio'];	
-$fecha_fin1 = $res['fecha_fin'];
-$pases_pendientes1 = $res['pases_pendientes'];
-$momento_inicial1 = $res['momento_inicial'];	
-$momento_final1 = $res['momento_final'];
-$retardo1 = $res['retardo'];	
-$duracion1 = $res['duracion'];	
-$canal1 = $res['canal'];	
-	
-/*if($bbdd_tipo=="sqlite"){
-	$conexion2 = new PDO("sqlite:administracion/db/registros.sqlite");
-	$conexion2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-if($bbdd_tipo=="mysql"){
-	$conexion2 = new mysqli ("localhost","root","root","registros");
-}*/
-
 if ($op=="update"){
 	if ($_POST["id"]!=''){
 		if ($visitante == "NO" && $_SESSION['nivel'] == 0){exit;} //no se tiene permisos con nivel cero mas que para editar visitantes!!
@@ -79,14 +51,14 @@ $upadate6 = "UPDATE plantillas_de_estilos set id_animacion = '".$video2."' where
 $upadate7 = "UPDATE plantillas_de_estilos set id_animacion = '".$noticia1."' where id_estilo = '".$id."' and id_bloque = '".$bloqued."' and id_tipo_animacion = 1 ";
 $upadate8 = "UPDATE plantillas_de_estilos set id_animacion = '".$noticia2."' where id_estilo = '".$id."' and id_bloque = '".$bloqued."' and id_tipo_animacion = 2 ";	
 
-$bbdd->consulta($upadate1,"UPDATE","ESTILOS","");
-$bbdd->consulta($upadate2,"UPDATE","ESTILOS","");
-$bbdd->consulta($upadate3,"UPDATE","ESTILOS","");
-$bbdd->consulta($upadate4,"UPDATE","ESTILOS","");
-$bbdd->consulta($upadate5,"UPDATE","ESTILOS","");
-$bbdd->consulta($upadate6,"UPDATE","ESTILOS","");
-$bbdd->consulta($upadate7,"UPDATE","ESTILOS","");
-$bbdd->consulta($upadate8,"UPDATE","ESTILOS","");
+$bbdd->consulta($upadate1,"UPDATE","ESTILOS",session_id());
+$bbdd->consulta($upadate2,"UPDATE","ESTILOS",session_id());
+$bbdd->consulta($upadate3,"UPDATE","ESTILOS",session_id());
+$bbdd->consulta($upadate4,"UPDATE","ESTILOS",session_id());
+$bbdd->consulta($upadate5,"UPDATE","ESTILOS",session_id());
+$bbdd->consulta($upadate6,"UPDATE","ESTILOS",session_id());
+$bbdd->consulta($upadate7,"UPDATE","ESTILOS",session_id());
+$bbdd->consulta($upadate8,"UPDATE","ESTILOS",session_id());
 			
 				
 		/*
@@ -137,7 +109,7 @@ if ($op=="insert"){
 if ( $_SESSION['nivel'] < $nivel_editar){exit;}
 
 $insertar_estilo = "INSERT INTO estilos (id,estilo,descripcion)VALUES(NOT NULL,'".$estilo."','".$descripcion."')";
-$bbdd->consulta($insertar_estilo,"INSERT","ESTILOS","");
+$bbdd->consulta($insertar_estilo,"INSERT","ESTILOS",session_id());
 $id_estilo = $bbdd->resultado_id();
 
 $insertar_estilos = "INSERT INTO plantillas_de_estilos (id,id_estilo,id_bloque,id_tipo_animacion,id_animacion) 
@@ -152,7 +124,7 @@ VALUES
 (NOT NULL,'".$id_estilo."','".$bloquec."','2','".$video2."'),
 (NOT NULL,'".$id_estilo."','".$bloqued."','2','".$noticia2."')"; 
 
- $bbdd->consulta($insertar_estilos,"INSERT","PLANTILAS_DE_ESTILOS","");
+ $bbdd->consulta($insertar_estilos,"INSERT","PLANTILAS_DE_ESTILOS",session_id());
 		
 		echo '<script language="javascript">alert("Estilo agregada correctamente");</script>'; 	
 		include "administracion/vistas/ofertas.php";

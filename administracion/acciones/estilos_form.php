@@ -105,7 +105,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT); 
 $bloquea = $resp['id_bloque'];
  }
-$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="bloquea" id="bloquea" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -130,7 +130,7 @@ $animacion = $resp['id_animacion'];
 }
 
 $bloquea = $resp['id_bloque'];
-$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="fecha1" id="fecha1" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -154,7 +154,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 $animacion = $resp['id_animacion'];
 }
-$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="fecha2" id="fecha2" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -181,7 +181,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT); 
 $bloqueb = $resp['id_bloque']; 
 }
-		$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
+		$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="bloqueb" id="bloqueb" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -204,7 +204,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 $animacion = $resp['id_animacion'];
 }		  		  
-$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="titular1" id="titular1" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -228,7 +228,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 $animacion = $resp['id_animacion'];
 }		  		  
-$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="titular2" id="titular2" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -254,7 +254,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT); 
 $bloquec = $resp['id_bloque']; 
 		}   
-$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="bloquec" id="bloquec" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -277,7 +277,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 $animacion = $resp['id_animacion'];
 	}	  		  
-$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="video1" id="video1" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -300,7 +300,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 $animacion = $resp['id_animacion'];
 }		  		  
-$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="video2" id="video2" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -326,7 +326,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT); 
 $bloqued = $resp['id_bloque']; 
 }		   
-$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM bloques ORDER by bloque ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="bloqued" id="bloqued" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -349,7 +349,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 $animacion = $resp['id_animacion'];
 }		  		  
-$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="noticia1" id="noticia1" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
@@ -372,7 +372,7 @@ $resul = $bbdd->consulta("select * from plantillas_de_estilos where id_estilo = 
 $resp = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
 $animacion = $resp['id_animacion'];
 }		  		  
-$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","select","animaciones",""); //replace exec with query
+$resultado = $bbdd->consulta("SELECT * FROM animaciones ORDER by animacion ASC","SELECT","ANIMACIONES",session_id()); //replace exec with query
 echo '<select name="noticia1" id="noticia1" >';
 foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $row){
 	        echo '<option value="'.$row['id'].'" ';
