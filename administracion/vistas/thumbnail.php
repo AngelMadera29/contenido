@@ -1,61 +1,63 @@
 <?php 
- session_start();
+session_start();
+include_once "administracion/db/BBDD.php";
+$bbdd = new Base_de_datos('administracion/db/bbdd.db','administracion/db/registros.sqlite');
  if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 
- $pos=0;
  ?>
  <!DOCTYPE html>
  <html>
  <head>
  	<title>vista de habitaciones</title>
+
+
  </head>
  <body>
  <div class="row" style="padding:1% 2%">
  <?php 
-$conn = new PDO("sqlite:../db/bbdd.db");  // SQLite Database
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$sql="select * from ofertas order by 2 limit $pos,4 ";
-$stmt=$conn->prepare($sql);
-$stmt->execute();
-$res=$stmt->fetchAll(PDO::FETCH_ASSOC);
-foreach ($res as $vista) {
-        print('<div class="col-xs-12 col-sm-4 col-md-3 ">
-              <div class="thumbnail" style=" height: auto;" >');
-        print('<img src="administracion/db/imagenes'.$vista['foto_id'].'" class="img-responsive" alt="Responsive image" style=" height: 200px;width:100%">');
-        print('<div class="col-xs-12 col-sm-12 col-md-12 ">');
-        print('<h3><p>Articulo. '.$vistas['articulo'].'<br>Contenido:'.$vista['texto'].'</p></h3>');
-       
-        print('<p>habitacion N°: '.$key['numero_hab'].'<br>Ubigeo:'.$key['ubigeo_hab'].'</p>');
-       
-        print('<a href="index.php?page=personal_form&datos='.$vista['id'].'" class="btn btn-primary" role="button" style="width:100%">Editar</a>');
-       // print('</div>');
-      
-        print('</div><br><br><br><br><br><br><br>');
-        print('</div></div>');
-} 
-   ?>
-<div class="col-xs-12 col-sm-12 col-md-12">
+	if (isset($_GET["page"])) { $page  = $_GET["page"]; } else { $page=1; };
+	$results_per_page = 8;
+	$start_from = ($page-1) * $results_per_page;
+	$sql = "select * from ofertas order by id asc limit  $start_from, ".$results_per_page;
+	echo $sql;
+	$resultado = $bbdd->consulta($sql,"SELECT","ESTILOS",session_id()); //replace exec with query
+	
+foreach($bbdd->resultado_completo(PDO::FETCH_ASSOC) as $vista)
+{
+	echo '<div id="container-folio_'.$vista['id'].'" style="position:relative">'.
+	'<div class="box col-xs-12 col-md-4 col-sm-6 col-lg-3">'.
+	'<div class="thumbnail">'.
+	'<img class="img-responsive" src="../administracion/db/imagenes/'.$vista['foto_id'].'" alt="">'.
+	'<div class="caption">'.
+	'<h3><p>'.$vista['articulo'].'<br>'.$vista['texto'].'</p></h3>'.
+	'<span class="meta">'.
+	'<i class="fa-icon-calendar"></i> January 1, 2013'.
+	'</span>'.
+	'<p> 
+	<a href="index.php?page=ofertas_form&datos='.$vista['id'].'" class="btn btn-primary" role="button" style="width:100%">Editar</a>
+	</p>'.
+	'</div>'.
+	'</div>'.
+	'</div>'.
+	'</div>';
+	
+}
+?>
 
-<nav>
-  <ul class="pagination">
-    <li>
-      <a href="v_habitacionh.php?pos=<?php echo ($pos-1); ?>" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li><a href="v_habitacionh.php?pos=1">1</a></li>
-    <li><a href="v_habitacionh.php?pos=2">2</a></li>
-    <li><a href="v_habitacionh.php?pos=3">3</a></li>
-    <li><a href="v_habitacionh.php?pos=4">4</a></li>
-    <li><a href="v_habitacionh.php?pos=5">5</a></li>
-    <li>
-      <a href="v_habitacionh.php?pos=<?php echo ($pos+1); ?>" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
-</div>
+<?php 
+$sql = "SELECT COUNT(ID) AS total FROM ofertas ";
+$result = $bbdd->consulta($sql,"SELECT","OFERTAS",session_id()); 
+$row = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+$total_pages = ceil($row["total"] / $results_per_page); // calculate total pages with results 
+for ($i=1; $i<=$total_pages; $i++) {  // print links for all pages
+            echo "<a href='vistas/thumbnail.php?page=thumb?page=".$i."'";
+            if ($i==$page)  echo " class='curPage'";
+            echo ">".$i."</a> "; 
+}; 
+?>
+
+   
+
 </div>
 
  </body>

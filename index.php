@@ -69,7 +69,8 @@ if (!isset($_SESSION)) {
 <?php  
 $contenido = "
 <li><a href='?page=usr'>Lista de usuarios</a></li>
-<li><a href='?page=respaldo'>Respaldos</a></li>";
+<li><a href='?page=respaldo'>Respaldos</a></li>
+<li><a href='?page=thumb'>VISTA</a></li>";
 $auth->autorizar("index","listas",$contenido,$nivel);
 ?>
 
@@ -143,7 +144,9 @@ $auth->autorizar("logs","logs",$contenido,$nivel);
 			break;			
 
 			
-			
+			case 'thumb':
+			include "administracion/vistas/thumbnail.php";
+			break;	
 			
 			
 			//vistas de los bloques nuevos
