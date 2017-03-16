@@ -31,6 +31,7 @@ $nivel = $_SESSION['nivel'];
 
      </head>     
 <body>
+		 
 	<div class='row'>
 	<?php
 	echo "<div class='col-md-8'>";
@@ -45,13 +46,10 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		
      <button class="btn btn-success" id="run">Convert!</button>
      <p>
-	 	<!-- este div muestra en pantalla el grid de las ofertas  --> 
-		 				    <div id="result"></div> 	
-		<!-- este div muestra en pantalla el grid de las ofertas  --> 
+
     </div>
-  
-        <table id="table" class="table table-bordered table-striped"
-             data-search="true"
+        <table id="table"             
+	        data-search="true"
           	 data-show-refresh="true"
           	 data-show-columns="true"
              data-show-toggle="true"
@@ -64,13 +62,13 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		     data-show-columns="true"
              data-query-params="queryParams"
              data-pagination="true"
+
 	         data-page-list="[10, 25, 50, 100, ALL]"
 	         data-filter-control="true" 
 	         data-show-export="true"
 		     data-maintain-selected="true"
 			 data-toolbar="#show"
-			 data-flat="true"
-				 
+			 data-flat="true" 
              data-url="administracion/vistas/oferta.php">
          <thead>
             <tr>
@@ -92,12 +90,12 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 				<th data-field="canal" >Canal</th>
 				<th data-field="id_estilo_animacion" >Estilo</th>
             </tr>
+           
             </thead>
         </table> 
     </div>
-          
-  <script src="//lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js"></script>
- 	<script>
+
+	 	<script>
 		$(document).ready(function(){
 		    $(".btn1").click(function(){
 		        $("tr").hide();
@@ -107,6 +105,7 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		    });
 		});
 	</script>
+ 	
 	<button class="btn1">Hide</button>
 	<button class="btn2">Show</button>
 
@@ -137,6 +136,7 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
     });
  });
 </script>  
+    
     <script>
     var $table = $('#table'),
         $button = $('#show');
@@ -182,58 +182,69 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
  });
 </script>
     
-  <!--  	
-    <script type="text/javascript">    
-		$('#run').click( function() {
-			  var $table1 = $('#table');
-			  var table = (JSON.stringify($table1.bootstrapTable('getData')));
-			  var array = JSON.parse(table);
-			  
-			  var file = array[0].video_id .replace(/\.[^\.]+$/, '.gif');
-			  var info = 
-			 '<ul><li>Name:' + array[0].id + '</li><li>Street:' + array[0].articulo + '</li><li>Phone:' + array[0].video_id + '</li><li>'+ "<img width=100 src='administracion/db/previsualizaciones/" + file + "'>" +'</li></ul>';
-			 
-			 $('#result').html(info);
+    <script type="text/javascript">  
+	    
+	    		//$(document).ready(function(){
+			//var $table1 = $('#table');
 			
-		});
-		$(document).ready(function(){
-			 $("#run").click(function(){
-		        $("tr").hide();
-		    });	
-		});
-	</script>
-        	-->
-    <script type="text/javascript">    
+		  
 		$('#run').click( function() {
 			  var $table1 = $('#table');
-			  var table = (JSON.stringify($table1.bootstrapTable('getData')));
-			  var array = JSON.parse(table);
+			  //var table = (JSON.stringify($table1.bootstrapTable('getData')));
+			  //var array = JSON.parse(table);
+			  var array = $table1.bootstrapTable('getData');
+			  var total = array.length;
+	
+	// <!-- este div muestra en pantalla el grid de las ofertas  --> 
+	//	 				    <div id="result"></div> 	
+	//	<!-- este div muestra en pantalla el grid de las ofertas  --> 
+	
+	// 1) añadir una fila a la tabla 
+	// 2) añadir un td colspan 17 a esa fila 
+	// 3) añadir div o si quieres, ese colspan que tenga un id que se llame resultados
+	
 			  
-			  var file = array[0].video_id .replace(/\.[^\.]+$/, '.gif');
 		var html = "<div class='gallery-widget'> <ul>";
-			for (var i = 0; i < array.length; i++){
-			 var file = array[i].video_id .replace(/\.[^\.]+$/, '.gif');	
+			for (var i = 0; i < array.length; i++)
+		{		
+			var file = array[i].video_id .replace(/\.[^\.]+$/, '.gif');	
 			html+="<li>";
 			html+="<img class='img-responsive' src='administracion/db/previsualizaciones/" + file+ "' aria-labelledby='item3-description'/>";
 			html+="<p>";
-			html+="<span id='item3-description'>" + array[i].articulo + "</span>";
+			html+="<span id='item3-description'><h4>" + array[i].articulo + "</h4></span>";
 			html+="<small>" + array[i].texto + "</small>";
 			html+="<a href='index.php?page=ofertas_form&datos=" + array[i].id + "' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Editar</a>";
 			html+="</p>";
 			html+="</li>";
-	}
+			
+		}
 			html+="</ul>";
 			html+="</div>";
 	
 document.getElementById("result").innerHTML = html;	
+
 	
 		});
-		$(document).ready(function(){
-			 $("#run").click(function(){
-		        $("tr").hide();
-		    });	
+$('#table').on('load-success.bs.table', function (e) {
+			 	$("td").hide();
+		        $("thead").show();
+		        	
+	
+				$('#run').click();
+			//$("#run").click();
+			 //$("#run").click(function(){
+				 //var $table1 = $('#table');
+				 //$table1.bootstrapTable('removeAll');
+
+		        
+		        
+		        
+		        
+		      // });	
 		});
 	</script>
+    
+<div id="result"></div>
    		
 <script type="text/javascript" src="assets/export/tableExport.js"></script>
 <script type="text/javascript" src="assets/export/jquery.base64.js"></script>
