@@ -49,30 +49,22 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 
     </div>
         <table id="table"             
-	        data-search="true"
+	       	 data-search="true"
           	 data-show-refresh="true"
           	 data-show-columns="true"
-             data-show-toggle="true"
+	         data-url="administracion/vistas/oferta.php"
 	     	 data-toggle="table"
-		     data-height="480"
-			 data-flat="true"
 		     data-cookie="true"
              data-show-refresh="true"
 	         data-toolbar="#toolbar"
-		     data-show-columns="true"
-             data-query-params="queryParams"
              data-pagination="true"
-
-	         data-page-list="[10, 25, 50, 100, ALL]"
+		     data-page-list="[10, 25, 50, 100, ALL]"
 	         data-filter-control="true" 
 	         data-show-export="true"
-		     data-maintain-selected="true"
-			 data-toolbar="#show"
-			 data-flat="true" 
-             data-url="administracion/vistas/oferta.php">
+             >
          <thead>
             <tr>
-	            <th data-field="state" data-checkbox="true"></th>
+	            <th data-field="state" data-checkbox="true">Check</th>
                 <th data-field="id">id</th>
                 <th data-formatter="dataFormater" data-width="90">Accion</th>
                 <th data-field="foto_id"  data-formatter="imageFormatter">Foto</th>               
@@ -90,11 +82,9 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 				<th data-field="canal" >Canal</th>
 				<th data-field="id_estilo_animacion" >Estilo</th>
             </tr>
-           
-            </thead>
+		  </thead>
         </table> 
     </div>
-
 	 	<script>
 		$(document).ready(function(){
 		    $(".btn1").click(function(){
@@ -187,11 +177,15 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 	    		//$(document).ready(function(){
 			//var $table1 = $('#table');
 			
+		
 		  
 		$('#run').click( function() {
 			  var $table1 = $('#table');
 			  //var table = (JSON.stringify($table1.bootstrapTable('getData')));
 			  //var array = JSON.parse(table);
+			  
+			  //investigar https://github.com/wenzhixin/bootstrap-table/pull/693
+			  			  
 			  var array = $table1.bootstrapTable('getData');
 			  var total = array.length;
 	
@@ -202,9 +196,14 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 	// 1) añadir una fila a la tabla 
 	// 2) añadir un td colspan 17 a esa fila 
 	// 3) añadir div o si quieres, ese colspan que tenga un id que se llame resultados
-	
-			  
-		var html = "<div class='gallery-widget'> <ul>";
+			
+			//$('#table tr:last').remove();
+			if (document.getElementById("result"))
+				$('#table tr:last').remove();
+				
+			$('#table tr:last').after('<tr><td colspan="19"><div id="result" width="100%" height="100%"></div></td></tr>');
+		    	  
+			var html = "<div class='gallery-widget'> <ul>";
 			for (var i = 0; i < array.length; i++)
 		{		
 			var file = array[i].video_id .replace(/\.[^\.]+$/, '.gif');	
@@ -221,30 +220,35 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 			html+="</ul>";
 			html+="</div>";
 	
-document.getElementById("result").innerHTML = html;	
+			document.getElementById("result").innerHTML = html;	
 
 	
 		});
-$('#table').on('load-success.bs.table', function (e) {
-			 	$("td").hide();
-		        $("thead").show();
-		        	
+		
+		$('#table').on('load-success.bs.table', function (e) {
+			$("td").hide();
+		    $("thead").show();
+			$('#run').click();
+		});
+		$('#table').on('page-change.bs.table', function (e) {
+			$("td").hide();
+		    $("thead").show();
+			$('#run').click();
+		});				
 	
-				$('#run').click();
-			//$("#run").click();
-			 //$("#run").click(function(){
-				 //var $table1 = $('#table');
-				 //$table1.bootstrapTable('removeAll');
-
-		        
-		        
-		        
-		        
-		      // });	
+		$('#table').on('search.bs.table', function (e) {
+			$("td").hide();
+		    $("thead").show();
+			$('#run').click();
+		});
+		$('#table').on('column-search.bs.table', function (e) {
+			$("td").hide();
+		    $("thead").show();
+			$('#run').click();
 		});
 	</script>
-    
-<div id="result"></div>
+
+
    		
 <script type="text/javascript" src="assets/export/tableExport.js"></script>
 <script type="text/javascript" src="assets/export/jquery.base64.js"></script>
