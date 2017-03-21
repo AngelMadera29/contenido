@@ -55,6 +55,7 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 	       	 data-search="true"
           	 data-show-refresh="true"
           	 data-show-columns="true"
+	         data-page-size="9"
 	         data-url="administracion/vistas/oferta.php"
 	     	 data-toggle="table"
 		     data-cookie="true"
@@ -75,8 +76,8 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 				<th data-field="precio" data-filter-control="input">Precio</th> 
 				<th data-field="texto" data-filter-control="input">Texto</th> 
 				<th data-field="video_id" data-formatter="imageFormatter1">Video</th>
-				<th data-field="fecha_inicio" data-filter-control="select">Fecha I.</th>
-				<th data-field="fecha_fin" data-filter-control="select">Fecha F.</th>
+				<th data-field="fecha_inicio" data-filter-control="datepicker">Fecha I.</th>
+				<th data-field="fecha_fin" data-filter-control="datepicker">Fecha F.</th>
 				<th data-field="pases_pendientes" data-filter-control="select" >Pases P.</th>	
 				<th data-field="momento_inicial" >Momento I.</th>
 				<th data-field="momento_final" >Momento F.</th>
