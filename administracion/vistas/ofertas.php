@@ -44,7 +44,10 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 	 ?>
 	 <a href="#" onClick ="$('#table').tableExport({type:'pdf',escape:'false'});" class="btn btn-success">PDF</a>
 		
-     <button class="btn btn-success" id="run">Convert!</button>
+     <button type="hidden" class="btn btn-success" id="run">Convert!</button><script>$('#run').hide();</script>
+     
+    <button class="btn1">Hide</button>
+	<button class="btn2">Show</button>
      <p>
 
     </div>
@@ -58,7 +61,7 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
              data-show-refresh="true"
 	         data-toolbar="#toolbar"
              data-pagination="true"
-		     data-page-list="[10, 25, 50, 100, ALL]"
+		     data-page-list="[9, 27, 50, 100, ALL]"
 	         data-filter-control="true" 
 	         data-show-export="true"
              >
@@ -72,8 +75,8 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 				<th data-field="precio" data-filter-control="input">Precio</th> 
 				<th data-field="texto" data-filter-control="input">Texto</th> 
 				<th data-field="video_id" data-formatter="imageFormatter1">Video</th>
-				<th data-field="fecha_inicio" >Fecha I.</th>
-				<th data-field="fecha_fin" >Fecha F.</th>
+				<th data-field="fecha_inicio" data-filter-control="select">Fecha I.</th>
+				<th data-field="fecha_fin" data-filter-control="select">Fecha F.</th>
 				<th data-field="pases_pendientes" data-filter-control="select" >Pases P.</th>	
 				<th data-field="momento_inicial" >Momento I.</th>
 				<th data-field="momento_final" >Momento F.</th>
@@ -86,19 +89,26 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
         </table> 
     </div>
 	 	<script>
+		//hide
+		var modo_vision = "tarjetas";
 		$(document).ready(function(){
 		    $(".btn1").click(function(){
-		        $("tr").hide();
-		    });
-		    $(".btn2").click(function(){
-		        $("tr").show();
+			if (modo_vision == "tarjetas")
+				modo_vision = "tabla";
+			else
+				modo_vision = "tarjetas";
+			$('#table').bootstrapTable('refresh');
+			//$('.btn btn-default').click();
+		 });
+		 //show
+		$(".btn2").click(function(){
+		    $("td").show();
+		    $(".gallery-widget").show();
+		    $("thead").show();
 		    });
 		});
 	</script>
  	
-	<button class="btn1">Hide</button>
-	<button class="btn2">Show</button>
-
     <script>
     var $table = $('#table'),
         $button = $('#show');
@@ -180,13 +190,13 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		
 		  
 		$('#run').click( function() {
+			
 			  var $table1 = $('#table');
 			  //var table = (JSON.stringify($table1.bootstrapTable('getData')));
 			  //var array = JSON.parse(table);
 			  
-			  //investigar https://github.com/wenzhixin/bootstrap-table/pull/693
-			  			  
-			  var array = $table1.bootstrapTable('getData');
+			  //investigar https://github.com/wenzhixin/bootstrap-table/pull/693			  
+			  var array = $table1.bootstrapTable('getData', {useCurrentPage: true});
 			  var total = array.length;
 	
 	// <!-- este div muestra en pantalla el grid de las ofertas  --> 
@@ -226,26 +236,48 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		});
 		
 		$('#table').on('load-success.bs.table', function (e) {
-			$("td").hide();
-		    $("thead").show();
-			$('#run').click();
+			if(modo_vision == "tarjetas") 
+			{
+				$("td").hide();
+			    $("thead").show();
+				$('#run').click();
+			}
 		});
 		$('#table').on('page-change.bs.table', function (e) {
-			$("td").hide();
-		    $("thead").show();
-			$('#run').click();
+			if(modo_vision == "tarjetas") 
+			{
+				$("td").hide();
+			    $("thead").show();
+				$('#run').click();
+			}
 		});				
 	
 		$('#table').on('search.bs.table', function (e) {
-			$("td").hide();
-		    $("thead").show();
-			$('#run').click();
+			if(modo_vision == "tarjetas") 
+			{
+				$("td").hide();
+			    $("thead").show();
+				$('#run').click();
+			}
 		});
 		$('#table').on('column-search.bs.table', function (e) {
-			$("td").hide();
-		    $("thead").show();
-			$('#run').click();
+			if(modo_vision == "tarjetas") 
+			{
+				$("td").hide();
+			    $("thead").show();
+				$('#run').click();
+			}
 		});
+		$('#table').on('column-switch.bs.table', function (e) {
+			if(modo_vision == "tarjetas") 
+			{
+				$("td").hide();
+			    $("thead").show();
+				$('#run').click();
+			}
+		});
+		
+		
 	</script>
 
 
