@@ -24,6 +24,7 @@ $nivel = $_SESSION['nivel'];
     <script src="assets/bootstrap-table/src/extensions/export/bootstrap-table-export.js"></script>
      <script src="assets/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js"></script>    
     <script src="assets/bootstrap-table/src/extensions/filter-control/bootstrap-table-filter-control.js"></script>
+    <script src="assets/bootstrap-table/src/extensions/filter-control/bootstrap-datepicker.js"></script>
     <script src="assets/bootstrap-table/src/extensions/export/bootstrap-table-export.js"></script>
       <script src="assets/bootstrap-table/src/extensions/flat-json/bootstrap-table-flat-json.js"></script>
         <script src="assets/ga.js"></script>
@@ -45,7 +46,8 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 	 <a href="#" onClick ="$('#table').tableExport({type:'pdf',escape:'false'});" class="btn btn-success">PDF</a>
 		
      <button type="hidden" class="btn btn-success" id="run">Convert!</button><script>$('#run').hide();</script>
-     
+ 
+
     <button class="btn1">Hide</button>
 	<button class="btn2">Show</button>
      <p>
@@ -76,8 +78,8 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 				<th data-field="precio" data-filter-control="input">Precio</th> 
 				<th data-field="texto" data-filter-control="input">Texto</th> 
 				<th data-field="video_id" data-formatter="imageFormatter1">Video</th>
-				<th data-field="fecha_inicio" data-filter-control="datepicker">Fecha I.</th>
-				<th data-field="fecha_fin" data-filter-control="datepicker">Fecha F.</th>
+				<th data-field="fecha_inicio" data-filter-control="datepicker" data-filter-datepicker-options='{"autoclose":true, "clearBtn": true, "todayHighlight": true}'>Fecha I.</th>
+				<th data-field="fecha_fin" data-filter-control="datepicker" data-filter-datepicker-options='{"autoclose":true, "clearBtn": true, "todayHighlight": true}'>Fecha F.</th>
 				<th data-field="pases_pendientes" data-filter-control="select" >Pases P.</th>	
 				<th data-field="momento_inicial" >Momento I.</th>
 				<th data-field="momento_final" >Momento F.</th>
