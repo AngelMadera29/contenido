@@ -1,0 +1,95 @@
+<?php 
+session_start();
+include_once "comprobar_previsualizacion.php";
+include_once "administracion/db/BBDD.php";
+$bbdd = new Base_de_datos('administracion/db/bbdd.db','administracion/db/registros.sqlite');
+if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
+$nivel = $_SESSION['nivel'];
+
+$direccion_ip="192.168.20.11";
+if ($_SESSION['lector'] == "126")
+{
+	$direccion_ip="192.168.20.126";
+}
+
+if (isset($_GET))
+{
+	$id=$_GET['datos'];
+	if ($id != "")
+	{
+
+	$resultado = $bbdd->consulta("SELECT * from ofertas where id = '".$id."'","SELECT","OFERTAS",session_id());
+	//$logs = $bbdd->consulta("INSERT ");
+	
+	$res = $bbdd->obtener_resutado(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT);
+
+$id = $res['id'];	
+$articulo = $res['articulo'];
+$precio = $res['precio'];	
+$texto = $res['texto'];
+$fotografia =$res['foto_id'];	
+$video_id = $res['video_id'];
+$fecha_inicio = $res['fecha_inicio'];	
+$fecha_fin = $res['fecha_fin'];
+$pases_pendientes = $res['pases_pendientes'];
+$momento_inicial = $res['momento_inicial'];	
+$momento_final = $res['momento_final'];
+$retardo = $res['retardo'];	
+$duracion = $res['duracion'];	
+$canal = $res['canal'];	
+$id_estilo = $res['id_estilo_animacion'];
+		}		
+		
+}
+if ($id!='')
+	$accion="update";
+else
+	$accion="insert";
+	
+?>
+<html>
+<head>
+    <title>Noticias</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/examples.css">
+    <script src="assets/jquery.min.js"></script>  
+    <link rel="stylesheet" href="assets/js/date/jquery-ui.css">
+	<script src="assets/js/date/jquery-ui.js"></script> 
+	<link rel="stylesheet" href="assets/js/date/style.css">
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/ga.js"></script>
+         <link rel="stylesheet" href="assets/css/style2.css">
+
+     </head>     
+<body>
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Editar Ofertas</h4>
+            </div>
+            <div class="modal-body">
+	            
+                <form>
+				  <div class="form-group">
+					<label for="recipient-name" class="control-label">Recipient:</label>
+					<input type="text" class="form-control" id="recipient-name">
+				  </div>
+				  <div class="form-group">
+					<label for="message-text" class="control-label">Message:</label>
+					<textarea class="form-control" id="message-text"></textarea>
+				  </div>
+				</form>
+				
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

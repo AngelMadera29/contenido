@@ -47,12 +47,14 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		
      <button type="hidden" class="btn btn-success" id="run">Convert!</button><script>$('#run').hide();</script>
  
+	 <a class="btn btn-primary pull-right" data-toggle="modal" href="#myModal" id="modellink">Show Modal</a>
 
     <button class="btn1">Hide</button>
 	<button class="btn2">Show</button>
      <p>
 
     </div>
+     <div class="modal-container"></div>
         <table id="table"             
 	       	 data-search="true"
           	 data-show-refresh="true"
@@ -167,6 +169,15 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 
         return valReturn;
     }
+    
+    $(document).ready(function(){
+		var url = "administracion/acciones/prueba.php";
+		jQuery('#modellink').click(function(e) {
+		    $('.modal-container').load(url,function(result){
+				$('#myModal').modal({show:true});
+			});
+		});
+	});
    
     $(function () {
         $table.on('check.bs.table uncheck.bs.table check-all.bs.table uncheck-all.bs.table', function () {
@@ -294,3 +305,4 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 <script type="text/javascript" src="assets/export/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
 </body>
 </html>
+

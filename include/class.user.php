@@ -6,6 +6,7 @@ include_once("administracion/db/BBDD.php");
 		
 		/*** for login process ***/
 		public function check_login($name, $password){
+			$path_website="Contenido";
 			$_SESSION['nivel'] = 0;
 			$_SESSION['nombre'] = "anonimo";
 			$bbdd = new Base_de_datos('administracion/db/bbdd.db','administracion/db/registros.sqlite');
@@ -26,6 +27,7 @@ include_once("administracion/db/BBDD.php");
 	            $_SESSION['id'] = $user_data['id'];
 	            $_SESSION['nivel'] = $user_data['nivel'];
 	            $_SESSION['nombre'] = $user_data['nombre'];
+	            $_SESSION['page_website'] = $path_website;
 	          
 	            
 	            $sql="UPDATE usuarios SET sessionkey='".session_id()."' WHERE nombre='".$name."'";

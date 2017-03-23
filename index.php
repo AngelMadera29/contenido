@@ -114,7 +114,13 @@ $auth->autorizar("logs","logs",$contenido,$nivel);
 			break;	
 			case 'ofertas_add':
 			include "administracion/acciones/agregar_ofertas.php";
-			break;				
+			break;
+			
+			case 'prueba':
+			include "administracion/acciones/prueba.php";
+			break;
+			
+							
 		//accion para abrir formulario de registro de nuevos usuarios
 			case 'usuario_form':
 			include "administracion/acciones/usuario_form.php";

@@ -2,7 +2,9 @@
 session_start();
 include_once "comprobar_previsualizacion.php";
 include_once "administracion/db/BBDD.php";
+$auth = new Autorizador(); 
 $bbdd = new Base_de_datos('administracion/db/bbdd.db','administracion/db/registros.sqlite');
+
 if ($_SESSION['nivel'] == '' || $_SESSION['nivel']  < 0 ){exit;}
 $nivel = $_SESSION['nivel'];
 
