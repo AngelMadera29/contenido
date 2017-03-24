@@ -47,10 +47,10 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		
      <button type="hidden" class="btn btn-success" id="run">Convert!</button><script>$('#run').hide();</script>
  
-	 <a class="btn btn-primary pull-right" data-toggle="modal" href="#myModal" id="modellink">Show Modal</a>
+	 <a class="btn btn-primary pull-right" data-toggle="modal" href="#myModaltop" id="modellink">Show Modal</a>
+	 
 
-    <button class="btn1">Hide</button>
-	<button class="btn2">Show</button>
+	<button class="btn1">Hide</button>
      <p>
 
     </div>
@@ -75,6 +75,7 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 	            <th data-field="state" data-checkbox="true">Check</th>
                 <th data-field="id">id</th>
                 <th data-formatter="dataFormater" data-width="90">Accion</th>
+                <th data-formatter="dataFormater2" data-width="90">Accion2</th>
                 <th data-field="foto_id"  data-formatter="imageFormatter">Foto</th>               
 				<th data-field="articulo" data-filter-control="input">Articulo</th> 
 				<th data-field="precio" data-filter-control="input">Precio</th> 
@@ -162,6 +163,7 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
         var id = row.id;
 
         var strHTML = "<div>";
+        // <a class="btn btn-primary pull-right" data-toggle="modal" href="#myModal" id="modellink">Show Modal</a>
          strHTML += "<a href='index.php?page=ofertas_form&datos=" + id + "' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Editar</a>";
         strHTML += "</div>";
 
@@ -170,13 +172,41 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
         return valReturn;
     }
     
-    $(document).ready(function(){
-		var url = "administracion/acciones/prueba.php";
-		jQuery('#modellink').click(function(e) {
-		    $('.modal-container').load(url,function(result){
-				$('#myModal').modal({show:true});
-			});
+       
+    function dataFormater2(value, row, index) {
+
+        var id = row.id;
+
+        var strHTML = "<div>";
+        // <a class="btn btn-primary pull-right" data-toggle="modal" href="#myModal" id="modellink">Show Modal</a>
+       
+         strHTML += "<a class='btn btn-primary pull-right' data-toggle='modal' onclick='click_modal("+id+")' id='modellink"+id+"'>Show Modal"+id+"</a>";
+        strHTML += "</div>";
+        
+
+        var valReturn = strHTML;
+
+        return valReturn;
+    }
+        
+    function click_modal(id)
+	{
+		var url = "administracion/acciones/prueba.php?id="+ id +"";
+	    $('.modal-container').load(url,function(result){
+			$('#myModal').modal({show:true});
 		});
+	}
+    			
+	$(document).ready(function(){
+		
+		//jQuery('#modellink').click(function(e) {
+		//	var ID=$(this).attr('data-id');
+		//	alert (ID);
+		//	var url = "administracion/acciones/prueba.php?id="+ ID +"";
+		//    $('.modal-container').load(url,function(result){
+		//		$('#myModal').modal({show:true});
+		//	});
+		//});
 	});
    
     $(function () {
@@ -236,6 +266,7 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 			html+="<p>";
 			html+="<span id='item3-description'><h4>" + array[i].articulo + "</h4></span>";
 			html+="<small>" + array[i].texto + "</small>";
+			html+="<p>";
 			html+="<a href='index.php?page=ofertas_form&datos=" + array[i].id + "' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-edit'></span>&nbsp;&nbsp;Editar</a>";
 			html+="</p>";
 			html+="</li>";
@@ -243,11 +274,14 @@ $auth->autorizar("ofertas","botones",$contenido,$nivel);
 		}
 			html+="</ul>";
 			html+="</div>";
+
 	
 			document.getElementById("result").innerHTML = html;	
 
 	
 		});
+		
+		
 		
 		$('#table').on('load-success.bs.table', function (e) {
 			if(modo_vision == "tarjetas") 

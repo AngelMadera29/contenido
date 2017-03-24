@@ -12,7 +12,7 @@ $nivel = $_SESSION['nivel'];
 
 if (isset($_GET))
 {
-	$id=$_GET['datos'];
+	$id=$_GET['id'];
 	if ($id != "")
 	{
 
